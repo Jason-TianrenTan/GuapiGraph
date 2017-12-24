@@ -9,17 +9,9 @@ namespace GuapiGraph
     public class JobInfo
     {
         public string companyName { get; set; }
-        public string address { get; set; }
         public string createTime { get; set; }
-        public string expire { get; set; }
-        public string id { get; set; }
-        public string internCompanyId { get; set; }
-        public string mark { get; set; }
-        public string receiveResumeCount { get; set; }
-        public string status { get; set; }
         public string title { get; set; }
-        public string updateTime { get; set; }
-
+    
         public List<string> duties = new List<string>();//岗位职责
         public List<string> qualifications = new List<string>();//岗位要求
 
