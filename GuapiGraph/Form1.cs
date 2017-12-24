@@ -15,6 +15,7 @@ namespace GuapiGraph
         public Form1()
         {
             InitializeComponent();
+            Parser.Parse(new TempBean());
         }
     }
 }
