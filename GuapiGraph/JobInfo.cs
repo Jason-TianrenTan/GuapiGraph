@@ -8,81 +8,59 @@ namespace GuapiGraph
 {
     public class JobInfo
     {
+        //公司名称
         public string companyName { get; set; }
-        public string createTime { get; set; }
+        //公司地址
+        public string address { get; set; }
+        //创建时间
+        public string createTime
+        {
+            get {
+                return createTime;
+            }
+            set {
+                FormDate(value);
+            } }
+        //职位名称
         public string title { get; set; }
-    
-        public List<string> duties = new List<string>();//岗位职责
-        public List<string> qualifications = new List<string>();//岗位要求
+        //岗位职责
+        public string duties { get; set; }
+        //岗位要求
+        public string qualifications { get; set; }
 
-        public void addDuty(string duty)
+        public JobInfo(
+            string companyName,
+            string address,
+            string createTime,
+            string title,
+            string duties,
+            string qualifications)
         {
-            duties.Add(duty);
+            this.companyName = companyName;
+            this.address = address;
+            this.createTime = createTime;
+            this.title = title;
+            this.duties = duties;
+            this.qualifications = qualifications;
         }
 
-        public void addQualification(string qual)
+        //将时间戳转为日期
+        private string FormDate(string timeStamp)
         {
-            qualifications.Add(qual);
+            DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
+            DateTime dt = startTime.AddSeconds(Convert.ToDouble(timeStamp));
+            System.Console.WriteLine("form date: " + dt.ToString("yyyy-MM-dd"));
+            return dt.ToString("yyyy-MM-dd");
         }
-
-        public string getDuties()
+        
+        public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            int length = 0;
-            for (int i = 0; i < duties.Count; i++)
-            {
-                sb.Append(duties[i]);
-                if (i < duties.Count - 1)
-                    sb.Append(" ");
-                length += duties[i].Length;
-                if (length > 40)
-                    break;
-            }
-            return sb.ToString();
-        }
-
-        public string getQualifications()
-        {
-            StringBuilder sb = new StringBuilder();
-            int length = 0;
-            for (int i = 0; i < qualifications.Count; i++)
-            {
-                sb.Append(qualifications[i]);
-                if (i < qualifications.Count - 1)
-                    sb.Append(" ");
-                length += qualifications[i].Length;
-                if (length > 40)
-                    break;
-            }
-            return sb.ToString();
-        }
-
-        public string getDutiesEndl()
-        {
-            StringBuilder sb = new StringBuilder();
-            int length = 0;
-            for (int i = 0; i < duties.Count; i++)
-            {
-                sb.Append(duties[i] + "\n");
-                length += duties[i].Length;
-                if (length > 40)
-                    break;
-            }
-            return sb.ToString();
-        }
-
-        public string getQualificationsEndl()
-        {
-            StringBuilder sb = new StringBuilder();
-            int length = 0;
-            for (int i = 0; i < qualifications.Count; i++)
-            {
-                sb.Append(qualifications[i] + "\n");
-                length += qualifications[i].Length;
-                if (length > 40)
-                    break;
-            }
-            return sb.ToString();
+            return "companyName: " + companyName +
+                "address: " + address +
+                "createTime: " + createTime +
+                "title: " + title +
+                "duties: " + duties +
+                "qualifications: " + qualifications;
         }
     }
 }

@@ -52,6 +52,23 @@ namespace GuapiGraph.Utils
         }
 
         /// <summary>
+        /// 异步执行一般sql语句
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <returns></returns>
+        public Task<int> ExecuteCmdAsync(string cmd)
+        {
+            using (OdbcConnection conn = OpenConnection())
+            {
+                OdbcCommand odbc = new OdbcCommand(cmd);
+
+                Console.WriteLine("DBUtils.ExecuteCmd cmd : " + cmd);
+
+                return odbc.ExecuteNonQueryAsync();
+            }
+        }
+
+        /// <summary>
         /// sql查询语句
         /// </summary>
         /// <param name="cmd"></param>
@@ -68,6 +85,25 @@ namespace GuapiGraph.Utils
                 Console.WriteLine("DBUtils.QueryCmd cmd : " + cmd);
 
                 return set;
+            }
+        }
+
+        /// <summary>
+        /// 专门用于查询统计个数
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <returns></returns>
+        public int CountCmd(string cmd)
+        {
+            using (OdbcConnection conn = OpenConnection())
+            {
+                OdbcCommand command = new OdbcCommand(cmd, conn);
+
+                int count = Convert.ToInt32(command.ExecuteScalar());
+
+                Console.WriteLine("DBUtils.CountCmd cmd : " + cmd);
+
+                return count;
             }
         }
 
