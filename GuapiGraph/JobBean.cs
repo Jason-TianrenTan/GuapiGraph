@@ -13,6 +13,5 @@ namespace GuapiGraph
         public string position { get; set; } //运维 前端 后台
         public List<string> adjList { get; set; } //形容词词频
         public List<string> skillList { get; set; }//java/c++/python
-        
     }
 }

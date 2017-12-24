@@ -1,1 +1,4 @@
 D:\C# Projects\GuapiGraph\GuapiGraph\bin\Debug\GuapiGraph.exe.config
+E:\Microsoft Visual Studio\project\GuapiGraph\GuapiGraph\obj\Debug\GuapiGraph.Properties.Resources.resources
+E:\Microsoft Visual Studio\project\GuapiGraph\GuapiGraph\obj\Debug\GuapiGraph.csproj.GenerateResource.Cache
+E:\Microsoft Visual Studio\project\GuapiGraph\GuapiGraph\obj\Debug\GuapiGraph.csproj.CoreCompileInputs.cache
