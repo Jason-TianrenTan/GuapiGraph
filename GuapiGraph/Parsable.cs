@@ -10,8 +10,8 @@ namespace GuapiGraph
     {
         string getName();//岗位名称
         string getDate();//2017-12-12
-        string getQualifications();//岗位要求
-        string getDuties();//岗位职责
+        List<string> getQualifications();//岗位要求
+        List<string> getDuties();//岗位职责
         string getCompany();//公司
     }
 }

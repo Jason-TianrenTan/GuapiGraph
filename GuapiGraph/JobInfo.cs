@@ -8,6 +8,7 @@ namespace GuapiGraph
 {
     public class JobInfo
     {
+        public string companyName { get; set; }
         public string address { get; set; }
         public string createTime { get; set; }
         public string expire { get; set; }

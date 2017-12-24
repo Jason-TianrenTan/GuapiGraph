@@ -8,9 +8,11 @@ namespace GuapiGraph
 {
     class JobBean
     {
-        String position; //运维 前端 后台
-        List<string> adjList; //形容词
-        List<string> skillList;//java/c++/python
-
+        public string company {get; set;}
+        public string date { get; set; }
+        public string position { get; set; } //运维 前端 后台
+        public List<string> adjList { get; set; } //形容词词频
+        public List<string> skillList { get; set; }//java/c++/python
+        
     }
 }
