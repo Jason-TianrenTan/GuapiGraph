@@ -14,7 +14,7 @@ namespace GuapiGraph
     public partial class Form1 : Form
     {
 
-        private DataModel modal = ModalImpl.GetInstance();
+        private DataModel modal = null; // ModalImpl.GetInstance();
 
         public Form1()
         {
@@ -154,8 +154,6 @@ namespace GuapiGraph
         /// </summary>
        private void get_skill_chart(string companyName)
         {
-
-
             double[] yValues = { 65.62, 75.54, 60.45, 34.73, 85.42, 55.9, 63.6, 55.2, 77.1 };
             string[] xValues = { "France", "Canada", "Germany", "USA", "Italy", "Spain", "Russia", "Sweden", "Japan" };
             radar_chart.Series[0].Points.DataBindXY(xValues, yValues);
@@ -269,6 +267,11 @@ namespace GuapiGraph
         private void menu_item_show_compannylist_Click(object sender, EventArgs e)
         {
             get_companylist();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

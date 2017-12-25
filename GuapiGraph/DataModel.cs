@@ -81,5 +81,12 @@ namespace GuapiGraph
         /// <param name="month">月份，格式参考"2017-12"</param>
         /// <returns></returns>
         int getPositionCountOfMonth(string position, string month);
+
+
+        /// <summary>
+        /// 获取职位列表(前端/运维/安全)
+        /// </summary>
+        /// <returns></returns>
+        List<string> getPositions();
     }
 }

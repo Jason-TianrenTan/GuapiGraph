@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menubar = new System.Windows.Forms.MenuStrip();
             this.menuitem_start = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_func_catchInfo = new System.Windows.Forms.ToolStripMenuItem();
@@ -172,16 +172,16 @@
             // 
             // job_chart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.job_chart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.job_chart.Legends.Add(legend1);
+            chartArea5.Name = "ChartArea1";
+            this.job_chart.ChartAreas.Add(chartArea5);
+            legend5.Name = "Legend1";
+            this.job_chart.Legends.Add(legend5);
             this.job_chart.Location = new System.Drawing.Point(452, 124);
             this.job_chart.Name = "job_chart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.job_chart.Series.Add(series1);
+            series5.ChartArea = "ChartArea1";
+            series5.Legend = "Legend1";
+            series5.Name = "Series1";
+            this.job_chart.Series.Add(series5);
             this.job_chart.Size = new System.Drawing.Size(376, 463);
             this.job_chart.TabIndex = 3;
             this.job_chart.Text = "job_cahrt";
@@ -203,16 +203,16 @@
             // 
             // radar_chart
             // 
-            chartArea2.Name = "ChartArea1";
-            this.radar_chart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.radar_chart.Legends.Add(legend2);
+            chartArea6.Name = "ChartArea1";
+            this.radar_chart.ChartAreas.Add(chartArea6);
+            legend6.Name = "Legend1";
+            this.radar_chart.Legends.Add(legend6);
             this.radar_chart.Location = new System.Drawing.Point(445, 118);
             this.radar_chart.Name = "radar_chart";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.radar_chart.Series.Add(series2);
+            series6.ChartArea = "ChartArea1";
+            series6.Legend = "Legend1";
+            series6.Name = "Series1";
+            this.radar_chart.Series.Add(series6);
             this.radar_chart.Size = new System.Drawing.Size(385, 463);
             this.radar_chart.TabIndex = 7;
             this.radar_chart.Text = "radar_chart";
@@ -285,16 +285,16 @@
             // 
             // chart1
             // 
-            chartArea3.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.chart1.Legends.Add(legend3);
+            chartArea4.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.chart1.Legends.Add(legend4);
             this.chart1.Location = new System.Drawing.Point(3, 45);
             this.chart1.Name = "chart1";
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.chart1.Series.Add(series3);
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.chart1.Series.Add(series4);
             this.chart1.Size = new System.Drawing.Size(845, 342);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
@@ -316,6 +316,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(144, 29);
             this.comboBox1.TabIndex = 2;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // SelectPositionLabel
             // 
