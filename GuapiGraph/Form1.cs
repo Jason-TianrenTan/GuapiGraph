@@ -40,16 +40,14 @@ namespace GuapiGraph
 
         }
 
-        private async void menu_func_catchInfo_Click(object sender, EventArgs e)
+        private void menu_func_catchInfo_Click(object sender, EventArgs e)
         {
             string tips = "start catching information\n" + "target:https://www.nowcoder.com/recommend\n";
             MessageBox.Show(tips);
             //获取网络数据
             this.infomation_state.Text = "spider is working...";
-            await Task.Run(() =>
-            {
-                modal.readDataFromNet();
-            });
+            Task<List<JobInfo>> task = modal.readDataFromNet();
+            
             this.infomation_state.Text = "infomation catched!";
         }
 
@@ -157,7 +155,10 @@ namespace GuapiGraph
        private void get_skill_chart(string companyName)
         {
 
-            
+
+            double[] yValues = { 65.62, 75.54, 60.45, 34.73, 85.42, 55.9, 63.6, 55.2, 77.1 };
+            string[] xValues = { "France", "Canada", "Germany", "USA", "Italy", "Spain", "Russia", "Sweden", "Japan" };
+            radar_chart.Series[0].Points.DataBindXY(xValues, yValues);
             // //标题
             radar_chart.Titles.Add("skills-needed graph in "+ CompanyName );
             radar_chart.Titles[0].ForeColor = Color.White;
@@ -227,30 +228,6 @@ namespace GuapiGraph
             radar_chart.Series[0].LegendText = "2015年";
             radar_chart.Series[0].IsValueShownAsLabel = true;
 
-            //Series2
-            radar_chart.Series.Add(new Series("Series2"));
-            radar_chart.Series[1].Label = "#VAL";
-            radar_chart.Series[1].LabelForeColor = Color.White;
-            radar_chart.Series[1].ToolTip = "#LEGENDTEXT:#VAL(宗)";
-            radar_chart.Series[1].ChartType = SeriesChartType.Radar;
-            radar_chart.Series[1]["RadarDrawingStyle"] = "Line";
-            radar_chart.Series[1].LegendText = "2016年";
-            radar_chart.Series[1].IsValueShownAsLabel = true;
-
-            //Series3
-            radar_chart.Series.Add(new Series("Series3"));
-            radar_chart.Series[2].Label = "#VAL";
-            radar_chart.Series[2].LabelForeColor = Color.White;
-            radar_chart.Series[2].ToolTip = "#LEGENDTEXT:#VAL(宗)";
-            radar_chart.Series[2].ChartType = SeriesChartType.Radar;
-            radar_chart.Series[2]["RadarDrawingStyle"] = "Line";
-            radar_chart.Series[2].LegendText = "2017年";
-            radar_chart.Series[2].IsValueShownAsLabel = true;
-
-
-            double[] yValues = { 65.62, 75.54, 60.45, 34.73, 85.42, 55.9, 63.6, 55.2, 77.1 };
-            string[] xValues = { "France", "Canada", "Germany", "USA", "Italy", "Spain", "Russia", "Sweden", "Japan" };
-            radar_chart.Series[0].Points.DataBindXY(xValues, yValues);
 
 
 

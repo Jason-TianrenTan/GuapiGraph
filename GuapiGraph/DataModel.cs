@@ -13,7 +13,7 @@ namespace GuapiGraph
         /// 联网获取职位信息
         /// </summary>
         /// <returns>新版Bean集合</returns>
-        List<JobInfo> readDataFromNet();
+        Task<List<JobInfo>> readDataFromNet();
 
 
         /// <summary>
@@ -63,5 +63,23 @@ namespace GuapiGraph
         /// <param name="skill">技能名称（java/Unix)</param>
         /// <returns>该项技能在所有公司中的统计总量</returns>
         int getSkillCountInTotal(string skill);
+
+
+        /* 2017-12-25更新 */
+        /// <summary>
+        /// 获取某个职位（运维/前端）需要的技能(java,unix)
+        /// </summary>
+        /// <param name="position">职位名字</param>
+        /// <returns>所需技能列表</returns>
+        List<string> getSkillOfPosition(string position);
+
+
+        /// <summary>
+        /// 获取某月份某职位的个数
+        /// </summary>
+        /// <param name="position">职位名字（运维/前端）</param>
+        /// <param name="month">月份，格式参考"2017-12"</param>
+        /// <returns></returns>
+        int getPositionCountOfMonth(string position, string month);
     }
 }
