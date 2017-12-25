@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -138,7 +139,6 @@ namespace GuapiGraph
                     //Console.WriteLine("get job from joblist = " + item.Value<string>("title"));
                     GetJobDetail(item);
                 }
-
             } while (++page <= size);
 
             p.Item2.Set();
@@ -148,7 +148,7 @@ namespace GuapiGraph
         private string GetJobPageJson(string address, int page)
         {
             //获取json数据
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(jobListUrl  + page + "&address=" + address);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(jobListUrl + page + "&address=" + address);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             response.GetResponseStream();
             StreamReader sr = new StreamReader(response.GetResponseStream());
@@ -200,11 +200,14 @@ namespace GuapiGraph
             //工作职责
             var nodes = htmlDoc.DocumentNode.SelectNodes("//dl[@class='job-duty']");
             string duties = nodes[0].InnerHtml.Trim();
+            duties = replaceHtml(duties);
             duties = duties.Substring(4);
 
             //工作需求
             nodes = htmlDoc.DocumentNode.SelectNodes("//div[@class='rec-job']/dl[2]");
-            string qualifications = nodes[0].InnerHtml.Trim();
+            string qualifications;
+            qualifications = nodes[0].InnerHtml.Trim();
+            qualifications = replaceHtml(qualifications);
             qualifications = qualifications.Substring(4);
 
             //工作地
@@ -234,6 +237,30 @@ namespace GuapiGraph
             s += @sr.ReadToEnd();
 
             return s;
+        }
+
+        //替换没用的html标签
+        private string replaceHtml(string html)
+        {
+            string result = html;
+
+            result = Regex.Replace(html, "<span.*?>", "");
+            result = Regex.Replace(html, "</span>", "");
+
+            result = result.Replace("<br>", "");
+            result = result.Replace("<p>", "");
+            result = result.Replace("</p>", "");
+            result = result.Replace("\r", "");
+            result = result.Replace("\n", "");
+            result = result.Replace(" ", "");
+            result = result.Replace("<dt>", "");
+            result = result.Replace("</dt>", "");
+            result = result.Replace("\"", "");
+            result = result.Replace("'", "");
+            result = result.Replace(",", "");
+            result = result.Replace(";", "");
+
+            return result;
         }
     }
 }

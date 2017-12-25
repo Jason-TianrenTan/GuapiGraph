@@ -18,10 +18,12 @@ namespace GuapiGraph
         {
             //新建数据库
             //db.ExecuteCmd("drop database if exists job;");
-            db.ExecuteCmd("create database if not exists job;");
+            db.ExecuteCmd(@"create database if not exists job;");
+
+            db.ExecuteCmd(@"drop table if exists jobs,web;");
 
             //创建表
-            db.ExecuteCmd("create table if not exists web (" +
+            db.ExecuteCmd(@"create table if not exists web (" +
                 "companyName text," +
                 "address text," +
                 "createTime text," +
@@ -29,7 +31,7 @@ namespace GuapiGraph
                 "duties text," +
                 "qualifications text" +
                 ");");
-            db.ExecuteCmd("create table if not exists jobs (" +
+            db.ExecuteCmd(@"create table if not exists jobs (" +
                 "company text," +
                 "month text," +
                 "position text," +
@@ -58,21 +60,23 @@ namespace GuapiGraph
         public async Task<List<JobInfo>> readDataFromNet()
         {
             WebSpider spider = new WebSpider();
-            await spider.Start();
-            Console.WriteLine("read Data From Net complete");
+            return await Task.Run(async () =>
+            {
+                await spider.Start();
+                Console.WriteLine("read Data From Net complete");
 
-            //异步写入数据库
-            foreach (JobInfo job in spider.GetJobList())
-                db.ExecuteCmdAsync("insert into web values (" +
-                    job.companyName + "," +
-                    job.address + "," +
-                    job.createTime + "," +
-                    job.title + "," +
-                    job.duties + "," +
-                    job.qualifications + "," +
-                    ");");
-
-            return spider.GetJobList();
+                //异步写入数据库
+                foreach (JobInfo job in spider.GetJobList())
+                    db.ExecuteCmd(@"insert into web values ('" +
+                        job.companyName + "','" +
+                        job.address + "','" +
+                        job.createTime + "','" +
+                        job.title + "','" +
+                        job.duties + "','" +
+                        job.qualifications + "'" +
+                        ");");
+                return spider.GetJobList();
+            });
         }
 
 
@@ -84,7 +88,7 @@ namespace GuapiGraph
         /// <returns></returns>
         public int getJobCount(string company, string month)
         {
-            int count = db.CountCmd("select count(*) from jobs where company like '%" + company + "%' " +
+            int count = db.CountCmd(@"select count(*) from jobs where company like '%" + company + "%' " +
                 "and month like '%" + month + "%');");
             Console.WriteLine("job in month count: " + count);
             return count;
@@ -99,7 +103,7 @@ namespace GuapiGraph
         /// <returns></returns>
         public Dictionary<string, int> getPositionCountInCompany(string company)
         {
-            DataSet data = db.QueryCmd("select position from jobs where company like '%" + company + "%');");
+            DataSet data = db.QueryCmd(@"select position from jobs where company like '%" + company + "%');");
             DataTable table = data.Tables[0];
 
             Dictionary<string, int> dictionary = new Dictionary<string, int>();
@@ -110,7 +114,8 @@ namespace GuapiGraph
                 if (dictionary.ContainsKey(position))
                 {
                     dictionary[position] = ++dictionary[position];
-                } else
+                }
+                else
                 {
                     dictionary.Add(position, 1);
                 }
@@ -128,12 +133,12 @@ namespace GuapiGraph
         {
             foreach (JobBean bean in beans)
             {
-                db.ExecuteCmd("insert into jobs values (" +
-                     bean.company + "," +
-                     bean.month + "," +
-                     bean.position + "," +
-                     ListToString(bean.adjList) + "," +
-                     ListToString(bean.skillList) + "," +
+                db.ExecuteCmd(@"insert into jobs values ('" +
+                     bean.company + "','" +
+                     bean.month + "','" +
+                     bean.position + "','" +
+                     ListToString(bean.adjList) + "','" +
+                     ListToString(bean.skillList) + "'" +
                     ");");
             }
         }
@@ -145,7 +150,7 @@ namespace GuapiGraph
         /// <returns></returns>
         public List<string> getCompanyList()
         {
-            DataSet dataSet = db.QueryCmd("select company from jobs;");
+            DataSet dataSet = db.QueryCmd(@"select company from jobs;");
             DataTable table = dataSet.Tables[0];
             List<string> company = new List<string>();
             foreach (DataRow row in table.Rows)
@@ -164,7 +169,7 @@ namespace GuapiGraph
         /// <returns></returns>
         public Dictionary<string, int> getSkillCountInCompany(string company)
         {
-            DataSet data = db.QueryCmd("select skillList from jobs where company like '%" + company + "%');");
+            DataSet data = db.QueryCmd(@"select skillList from jobs where company like '%" + company + "%');");
             DataTable table = data.Tables[0];
 
             Dictionary<string, int> dictionary = new Dictionary<string, int>();
@@ -198,7 +203,7 @@ namespace GuapiGraph
         /// <returns>该项技能在所有公司中的统计总量</returns>
         public int getSkillCountInTotal(string skill)
         {
-            int count = db.CountCmd("select count(*) from jobs where skillList like '%" + skill + "%'");
+            int count = db.CountCmd(@"select count(*) from jobs where skillList like '%" + skill + "%'");
             Console.WriteLine("get Skill Count Total: " + count);
             return count;
         }

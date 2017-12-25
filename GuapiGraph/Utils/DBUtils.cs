@@ -46,6 +46,7 @@ namespace GuapiGraph.Utils
                 OdbcCommand odbc = new OdbcCommand(cmd, conn);
 
                 Console.WriteLine("DBUtils.ExecuteCmd cmd : " + cmd);
+                //Console.WriteLine("DBUtils.ExecuteCmd cmd ");
 
                 return odbc.ExecuteNonQuery();
             }
@@ -62,7 +63,8 @@ namespace GuapiGraph.Utils
             {
                 OdbcCommand odbc = new OdbcCommand(cmd, conn);
 
-                Console.WriteLine("DBUtils.ExecuteCmd cmd : " + cmd);
+                Console.WriteLine("DBUtils.ExecuteCmdAsync cmd : " + cmd);
+                //Console.WriteLine("DBUtils.ExecuteCmdAsync cmd");
 
                 return odbc.ExecuteNonQueryAsync();
             }
