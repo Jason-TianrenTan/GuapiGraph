@@ -14,7 +14,7 @@ namespace GuapiGraph
     public partial class Form1 : Form
     {
 
-        //private DataModel modal = ModalImpl.GetInstance();
+        private DataModel modal = ModalImpl.GetInstance();
 
         public Form1()
         {
@@ -27,6 +27,57 @@ namespace GuapiGraph
             
         }
 
+       
+        //技能树构造链表
+        protected Dictionary<string, int> skill_tree_items = new Dictionary<string, int>();
+        private void make_skill_Items() {
+            skill_tree_items.Clear();//清空技能树构造链表
+            string company = skill_job_list.SelectedItem.ToString();
+            skill_tree_items = modal.getSkillCountInCompany(company);
+        }
+        /// <summary>
+        /// 技能树页面，list双击事件
+        /// </summary>
+        private void skill_job_list_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            make_skill_Items();
+
+        }
+
+        private void menu_func_catchInfo_Click(object sender, EventArgs e)
+        {
+            string tips = "start catching information\n" + "target:https://www.nowcoder.com/recommend\n";
+            MessageBox.Show(tips);
+            //获取网络数据
+
+        }
+
+      
+        private void button_show_companyList_Click(object sender, EventArgs e)
+        {
+            get_companylist();
+
+        }
+       
+        protected List<string> companyList = new List<string>();
+        /// <summary>
+        /// 得到公司列表展示在list
+        /// </summary>
+        private void get_companylist()
+        {
+            companyList = modal.getCompanyList();
+            if (companyList.Count < 1)
+                return;
+            skill_job_list.Items.Add("we found " + companyList.Count + " company totally");
+            foreach (string name in companyList)
+            {
+                skill_job_list.Items.Add(name);
+            }
+        }
+
+        /// <summary>
+        /// 得到柱状图
+        /// </summary>
         string[] x = new string[] { "南山大队", "福田大队", "罗湖大队", "宝安大队", "指挥处", "大帝科技", "南山大队", "福田大队", "罗湖大队", "宝安大队", "指挥处", "大帝科技" };
         double[] y = new double[] { 541, 574, 345, 854, 684, 257, 541, 574, 345, 854, 684, 257 };
         private void get_job_chart()
@@ -99,32 +150,8 @@ namespace GuapiGraph
 
         }
 
-        //技能树页面，list双击事件
-        private void skill_job_list_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
+     
 
-        }
 
-        private void menu_func_catchInfo_Click(object sender, EventArgs e)
-        {
-            string tips = "start catching information\n" + "target:https://www.nowcoder.com/recommend\n";
-            MessageBox.Show(tips);
-            //获取网络数据
-        }
-
-        protected List<string> companyList = new List<string>();
-        private void button_show_companyList_Click(object sender, EventArgs e)
-        {
-            companyList.Add("baidu");
-            companyList.Add("google");
-            //companyList = modal.getCompanyList();
-            if (companyList.Count < 1)
-                return;
-            skill_job_list.Items.Add("we found "+companyList.Count+" company totally");
-            foreach(string name in companyList)
-            {
-                skill_job_list.Items.Add(name);
-            }
-        }
     }
 }

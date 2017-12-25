@@ -8,6 +8,7 @@ namespace GuapiGraph
 {
     interface DataModel
     {
+
         /// <summary>
         /// 联网获取职位信息
         /// </summary>
