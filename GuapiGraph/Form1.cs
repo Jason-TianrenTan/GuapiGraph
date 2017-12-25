@@ -14,12 +14,11 @@ namespace GuapiGraph
     public partial class Form1 : Form
     {
         Dictionary<int, List<string>> dict = new Dictionary<int, List<string>>();
-        private DataModel modal = null; // ModalImpl.GetInstance();
+        private DataModel modal = ModalImpl.GetInstance();
 
         public Form1()
         {
             InitializeComponent();
-            init();
         }
 
 
@@ -145,6 +144,7 @@ namespace GuapiGraph
             List<JobInfo> list = await modal.readDataFromNet();
             get_companylist();
             this.infomation_state.Text = "infomation catched!" + companyList.Count + "  companie' information has been catched!";
+            init();
         }
 
 

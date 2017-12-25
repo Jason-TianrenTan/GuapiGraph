@@ -17,7 +17,7 @@ namespace GuapiGraph
         //主页面
         private const string url = "https://www.nowcoder.com/recommend";
         //获取职位列表 ".../list?page=1&address=北京"
-        private const string jobListUrl = "https://www.nowcoder.com/recommend-intern/list?";
+        private const string jobListUrl = "https://www.nowcoder.com/recommend-intern/list?token=&page=";
         //获取工作详情 ".../70?jobId=1059"
         private const string jobDetailUrl = "https://www.nowcoder.com/recommend-intern/";
 
@@ -120,7 +120,7 @@ namespace GuapiGraph
 
                 //获取pagesize
                 size = Convert.ToInt32(o["data"]["totalPage"]);
-                Console.WriteLine("get page size = " + size);
+                Console.WriteLine("get job page: address:{0}, size:{1}, page:{2}", p.Item1, size, page);
 
                 //获取joblist
                 IList<JToken> list = o["data"]["jobList"].Children().ToList();
@@ -153,10 +153,11 @@ namespace GuapiGraph
             response.GetResponseStream();
             StreamReader sr = new StreamReader(response.GetResponseStream());
             string json = @sr.ReadToEnd();
-
+            
             sr.Close();
             response.Close();
 
+            Console.WriteLine("Get Job Json Page " + address + page);
             return json;
         }
 
@@ -185,7 +186,7 @@ namespace GuapiGraph
 
             jobList.Add(job);
 
-            Console.WriteLine(job.ToString());
+            //Console.WriteLine(job.ToString());
         }
 
         //生成JobBean
@@ -244,6 +245,7 @@ namespace GuapiGraph
         {
             string result = html;
 
+            result = Regex.Replace(html, "<.*?>", "");
             result = Regex.Replace(html, "<span.*?>", "");
             result = Regex.Replace(html, "</span>", "");
 

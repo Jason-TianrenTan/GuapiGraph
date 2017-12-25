@@ -20,7 +20,10 @@ namespace GuapiGraph
                 return _createTime;
             }
             set {
-                _createTime = FormDate(value);
+                if (!value.Contains("-"))
+                    _createTime = FormDate(value);
+                else
+                    _createTime = value;
             } }
         //职位名称
         public string title { get; set; }

@@ -20,7 +20,7 @@ namespace GuapiGraph
             //db.ExecuteCmd("drop database if exists job;");
             db.ExecuteCmd(@"create database if not exists job;");
 
-            db.ExecuteCmd(@"drop table if exists jobs,web;");
+            //db.ExecuteCmd(@"drop table if exists jobs,web;");
 
             //创建表
             db.ExecuteCmd(@"create table if not exists web (" +
@@ -59,15 +59,38 @@ namespace GuapiGraph
         /// <returns>新版Bean集合</returns>
         public async Task<List<JobInfo>> readDataFromNet()
         {
-            WebSpider spider = new WebSpider();
             return await Task.Run(async () =>
             {
+                int count = db.CountCmd(@"select count(*) from web limit 1;");
+                if (count != 0)
+                {
+                    Console.WriteLine("web table not null");
+                    DataSet dataSet = db.QueryCmd(@"select * from web;");
+                    DataTable table = dataSet.Tables[0];
+
+                    List<JobInfo> list = new List<JobInfo>();
+                    foreach (DataRow row in table.Rows)
+                    {
+                        list.Add(new JobInfo(
+                            Convert.ToString(row[0]),
+                            Convert.ToString(row[1]),
+                            Convert.ToString(row[2]),
+                            Convert.ToString(row[3]),
+                            Convert.ToString(row[4]),
+                            Convert.ToString(row[5])
+                        ));
+                        Console.WriteLine("get exists web data : " + row[0]);
+                    }
+                    return list;
+                }
+
+                WebSpider spider = new WebSpider();
                 await spider.Start();
                 Console.WriteLine("read Data From Net complete");
 
                 //异步写入数据库
                 foreach (JobInfo job in spider.GetJobList())
-                    db.ExecuteCmd(@"insert into web values ('" +
+                    db.ExecuteCmdAsync(@"insert into web values ('" +
                         job.companyName + "','" +
                         job.address + "','" +
                         job.createTime + "','" +
@@ -253,7 +276,8 @@ namespace GuapiGraph
 
             foreach (DataRow row in table.Rows)
             {
-                if (dictionary.ContainsKey(Convert.ToString(row[0]))) {
+                if (dictionary.ContainsKey(Convert.ToString(row[0])))
+                {
                     List<string> list = dictionary[Convert.ToString(row[0])];
                     if (!list.Contains(Convert.ToString(row[0]).Substring(0, 7)))
                     {
