@@ -47,4 +47,3 @@ C:\Users\Administrator\Documents\GitHub\GuapiGraph\GuapiGraph\bin\Debug\Newtonso
 C:\Users\Administrator\Documents\GitHub\GuapiGraph\GuapiGraph\obj\Debug\GuapiGraph.Form1.resources
 C:\Users\Administrator\Documents\GitHub\GuapiGraph\GuapiGraph\obj\Debug\GuapiGraph.Properties.Resources.resources
 C:\Users\Administrator\Documents\GitHub\GuapiGraph\GuapiGraph\obj\Debug\GuapiGraph.csproj.GenerateResource.Cache
-C:\Users\Administrator\Documents\GitHub\GuapiGraph\GuapiGraph\obj\Debug\GuapiGraph.csprojResolveAssemblyReference.cache

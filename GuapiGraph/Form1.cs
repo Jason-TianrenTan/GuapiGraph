@@ -48,6 +48,7 @@ namespace GuapiGraph
         {
             foreach (string str in positions)
                 positionComboBox.Items.Add(str);
+            positionComboBox.SelectedIndex = 0;
         }
 
 
@@ -180,6 +181,22 @@ namespace GuapiGraph
             List<int> yList = new List<int>(counts[index]);
             List<string> xList = new List<string>(months[index]);
             PredictionChart.Series[0].Points.DataBindXY(xList, yList);
+
+            //Linear Regression
+            double k = 0, b = 0;
+            new LinearRegressonProcessor(xList, yList).Calculate(out k, out b);
+            int baseMonth = new Month(months[index][0]).convertToNumber();
+            int month1 = new Month("2018-1").convertToNumber() - baseMonth,
+                month2 = new Month("2018-2").convertToNumber() - baseMonth,
+                month3 = new Month("2018-3").convertToNumber() - baseMonth;
+            int prediction1 = (int)(k * month1 + b),
+                prediction2 = (int)(k * month2 + b),
+                prediction3 = (int)(k * month3 + b);
+            predictionYearLabel1.Text = "Prediction for 2018-1: " + prediction1;
+            predictionYearLabel2.Text = "Prediction for 2018-2: " + prediction2;
+            predictionYearLabel3.Text = "Prediction for 2018-3: " + prediction3;
+
+            LRText.Text = String.Format("Linear Regression Formula: y = {0:F}x + {1:F}", k, b) ;
         }
 
 
