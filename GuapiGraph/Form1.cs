@@ -118,25 +118,26 @@ namespace GuapiGraph
             PredictionChart.Series[0].Palette = ChartColorPalette.SeaGreen;
             PredictionChart.Visible = true;
         }
-
-
-        //技能树构造链表
-        protected Dictionary<string, int> skill_tree_items = new Dictionary<string, int>();
-        private void make_skill_Items()
-        {
-            skill_tree_items.Clear();//清空技能树构造链表
-            string company = company_skill_list.SelectedItem.ToString();
-            skill_tree_items = modal.getSkillCountInCompany(company);
-        }
-
+      
 
         /// <summary>
         /// 技能树页面，list双击事件
         /// </summary>
         private void skill_job_list_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            make_skill_Items();
+            get_skill_chart(company_skill_list.SelectedItem.ToString());
         }
+
+
+        /// <summary>
+        /// 岗位界面，list双击事件
+        /// </summary>
+        private void company_job_list_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+           
+            get_job_chart(company_job_list.SelectedItem.ToString());
+        }
+
 
         private void menu_func_catchInfo_Click(object sender, EventArgs e)
         {
@@ -145,7 +146,7 @@ namespace GuapiGraph
             //获取网络数据
             this.infomation_state.Text = "spider is working...";
             Task<List<JobInfo>> task = modal.readDataFromNet();
-            
+
             this.infomation_state.Text = "infomation catched!";
         }
 
@@ -158,11 +159,13 @@ namespace GuapiGraph
         /// </summary>
         private void get_companylist()
         {
+            if (modal == null)
+            {
+                return;
+            }
             companyList = modal.getCompanyList();
             if (companyList.Count < 1)
                 return;
-            company_skill_list.Items.Add("we found " + companyList.Count + " company totally");
-            company_job_list.Items.Add("we found " + companyList.Count + " company totally");
             foreach (string name in companyList)
             {
                 company_job_list.Items.Add(name);
@@ -186,19 +189,30 @@ namespace GuapiGraph
         private void get_job_chart(string companyName)
         {
             //数据库中提取公司中各岗位和数量
-            Dictionary<string, int> kind_numbers = modal.getPositionCountInCompany(companyName);
+            /*if (modal == null)
+                return;*/
+            //Dictionary<string, int> kind_numbers = modal.getPositionCountInCompany(companyName);
             List<string> x = new List<string>();
             List<int> y = new List<int>();
+            /* foreach (var kin_number in kind_numbers)
+             {
+                 x.Add(kin_number.Key);
+                 y.Add(kin_number.Value);
+             }*/
+            //test
+            x.Add("saldhjkas");
+            x.Add("sakjdhu");
+            x.Add("ididiao");
+            y.Add(6);
+            y.Add(8);
+            y.Add(10);
+            //test
 
-            foreach(var kin_number in kind_numbers){
-                x.Add(kin_number.Key);
-                y.Add(kin_number.Value);
-            }
-          //标题
-            job_chart.Titles.Add("numbers-jobs in" +companyName +"company chart");
+            //标题
+            job_chart.Titles.Add("numbers-jobs in" + companyName + "company chart");
             job_chart.Titles[0].ForeColor = Color.Black;
             job_chart.Titles[0].Font = new Font("微软雅黑", 12f, FontStyle.Regular);
-            job_chart.Titles[0].Alignment = ContentAlignment.TopCenter;
+            job_chart.Titles[0].Alignment = ContentAlignment.TopLeft;
 
             //控件背景
             job_chart.BackColor = Color.Transparent;
@@ -260,20 +274,36 @@ namespace GuapiGraph
 
 
         }
+
+        private void positionComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
         /// <summary>
         /// 得到技能树图
         /// </summary>
-       private void get_skill_chart(string companyName)
+        private void get_skill_chart(string companyName)
         {
-            double[] yValues = { 65.62, 75.54, 60.45, 34.73, 85.42, 55.9, 63.6, 55.2, 77.1 };
-            string[] xValues = { "France", "Canada", "Germany", "USA", "Italy", "Spain", "Russia", "Sweden", "Japan" };
+            if (modal == null)
+                return;
+           
+            Dictionary<string, int> skill_numbers = modal.getSkillCountInCompany(companyName);
+            List<string> xValues = new List<string>();
+            List<int> yValues = new List<int>();
+            foreach(var item in skill_numbers)
+            {
+                xValues.Add(item.Key);
+                yValues.Add(item.Value);
+            }
+           
             radar_chart.Series[0].Points.DataBindXY(xValues, yValues);
             // //标题
-            radar_chart.Titles.Add("skills-needed graph in "+ CompanyName );
-            radar_chart.Titles[0].ForeColor = Color.White;
-            radar_chart.Titles[0].Font = new Font("微软雅黑", 12f, FontStyle.Regular);
-            radar_chart.Titles[0].Alignment = ContentAlignment.TopCenter;
-          
+            radar_chart.Titles.Add("skills-needed graph in " + companyName + " company");
+            radar_chart.Titles[0].ForeColor = Color.Gray;
+            radar_chart.Titles[0].Font = new Font("微软雅黑", 16f, FontStyle.Regular);
+            radar_chart.Titles[0].Alignment = ContentAlignment.TopLeft;
+
             //控件背景
             radar_chart.BackColor = Color.Transparent;
             radar_chart.ChartAreas[0].BackColor = Color.Transparent;
@@ -283,26 +313,25 @@ namespace GuapiGraph
             radar_chart.ChartAreas[0].AxisX.LabelStyle.IsStaggered = true;
             radar_chart.ChartAreas[0].AxisX.LabelStyle.Angle = -45;
             radar_chart.ChartAreas[0].AxisX.TitleFont = new Font("微软雅黑", 14f, FontStyle.Regular);
-            radar_chart.ChartAreas[0].AxisX.TitleForeColor = Color.White;
+            radar_chart.ChartAreas[0].AxisX.TitleForeColor = Color.Black;
 
             //X坐标轴颜色
             radar_chart.ChartAreas[0].AxisX.LineColor = ColorTranslator.FromHtml("#38587a"); ;
-            radar_chart.ChartAreas[0].AxisX.LabelStyle.ForeColor = Color.White;
+            radar_chart.ChartAreas[0].AxisX.LabelStyle.ForeColor = Color.Black;
             radar_chart.ChartAreas[0].AxisX.LabelStyle.Font = new Font("微软雅黑", 10f, FontStyle.Regular);
-            
+
             //X轴网络线条
             radar_chart.ChartAreas[0].AxisX.MajorGrid.Enabled = true;
             radar_chart.ChartAreas[0].AxisX.MajorGrid.LineColor = ColorTranslator.FromHtml("#2c4c6d");
 
             //Y坐标轴颜色
             radar_chart.ChartAreas[0].AxisY.LineColor = ColorTranslator.FromHtml("#38587a");
-            radar_chart.ChartAreas[0].AxisY.LabelStyle.ForeColor = Color.White;
+            radar_chart.ChartAreas[0].AxisY.LabelStyle.ForeColor = Color.Black;
             radar_chart.ChartAreas[0].AxisY.LabelStyle.Font = new Font("微软雅黑", 10f, FontStyle.Regular);
-           
+
             //Y轴网格线条
             radar_chart.ChartAreas[0].AxisY.MajorGrid.Enabled = true;
             radar_chart.ChartAreas[0].AxisY.MajorGrid.LineColor = ColorTranslator.FromHtml("#2c4c6d");
-
             radar_chart.ChartAreas[0].AxisY2.LineColor = Color.Transparent;
             radar_chart.ChartAreas[0].AxisX.IsMarginVisible = false;
             radar_chart.ChartAreas[0].Area3DStyle.Enable3D = true;
@@ -310,34 +339,22 @@ namespace GuapiGraph
             radar_chart.ChartAreas[0].AxisX.IsMarginVisible = false;
             //刻度线
             radar_chart.ChartAreas[0].AxisY.MajorTickMark.Enabled = false;
-            
+
             radar_chart.ChartAreas[0].AxisY.LabelStyle.Enabled = false;
             //背景渐变
-            radar_chart.ChartAreas[0].BackGradientStyle = GradientStyle.None;
-           
+            radar_chart.ChartAreas[0].BackGradientStyle = GradientStyle.Center;
+
             //图例样式
             Legend legend4 = new Legend();
-            legend4.Title = "图例";
+            legend4.Title = "skill";
             legend4.TitleBackColor = Color.Transparent;
             legend4.BackColor = Color.Transparent;
-            legend4.TitleForeColor = Color.White;
+            legend4.TitleForeColor = Color.Black;
             legend4.TitleFont = new Font("微软雅黑", 10f, FontStyle.Regular);
             legend4.Font = new Font("微软雅黑", 8f, FontStyle.Regular);
-            legend4.ForeColor = Color.White;
+            legend4.ForeColor = Color.Black;
             radar_chart.Legends.Add(legend4);
             radar_chart.Legends[0].Position.Auto = true;
-
-            //Series1
-            radar_chart.Series[0].XValueType = ChartValueType.String;
-            radar_chart.Series[0].Label = "#VAL";
-            radar_chart.Series[0].LabelForeColor = Color.White;
-            radar_chart.Series[0].ToolTip = "#LEGENDTEXT:#VAL(宗)";
-            radar_chart.Series[0].ChartType = SeriesChartType.Radar;
-            radar_chart.Series[0]["RadarDrawingStyle"] = "Line";
-            radar_chart.Series[0].LegendText = "2015年";
-            radar_chart.Series[0].IsValueShownAsLabel = true;
-
-
 
 
             //设置X轴显示间隔为1,X轴数据比较多的时候比较有用  
@@ -345,23 +362,10 @@ namespace GuapiGraph
             //设置XY轴标题的名称所在位置位远  
             radar_chart.ChartAreas[0].AxisX.TitleAlignment = StringAlignment.Near;
 
-            for (int i = 0; i < radar_chart.Series[2].Points.Count; i++)
-            {
-                radar_chart.Series[2].Points[i].MarkerStyle = MarkerStyle.Circle;//设置折点的风格     
-                radar_chart.Series[2].Points[i].MarkerColor = Color.Red;//设置seires中折点的颜色   
-                                                                 //    cht4.Series[1].Points[i].MarkerStyle = MarkerStyle.Square;//设置折点的风格     
-                                                                 //    cht4.Series[1].Points[i].MarkerColor = Color.Blue;//设置seires中折点的颜色  
-                                                                 //    cht4.Series[2].Points[i].MarkerStyle = MarkerStyle.Square;//设置折点的风格     
-                                                                 //    cht4.Series[2].Points[i].MarkerColor = Color.Green;//设置seires中折点的颜色  
-            }
-            for (int i = 0; i < radar_chart.Series.Count; i++)
-            {
-                for (int j = 0; j < radar_chart.Series[i].Points.Count; j++)
-                {
-                    radar_chart.Series[i].Points[j].Label = " ";
-                    //cht4.Series[i].Points[j].LabelToolTip = "string.Empty";
-                }
-            }
+            radar_chart.Series[0].Points[0].MarkerStyle = MarkerStyle.Circle;//设置折点的风格     
+            radar_chart.Series[0].Points[0].MarkerColor = Color.Red;//设置seires中折点的颜色   
+
+
             //cht4.ImageType = ChartImageType.Jpeg;
             //反锯齿  
             radar_chart.AntiAliasing = AntiAliasingStyles.All;
@@ -369,10 +373,9 @@ namespace GuapiGraph
             radar_chart.Palette = ChartColorPalette.BrightPastel;
 
             radar_chart.Series[0].ChartType = SeriesChartType.Radar;
-            radar_chart.Series[1].ChartType = SeriesChartType.Radar;
-            radar_chart.Series[2].ChartType = SeriesChartType.Radar;
-            radar_chart.Width = 500;
+            radar_chart.Width = 560;
             radar_chart.Height = 350;
+            radar_chart.Visible = true;
         }
 
         private void menu_item_show_compannylist_Click(object sender, EventArgs e)
@@ -380,7 +383,9 @@ namespace GuapiGraph
             get_companylist();
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+
+
+        private void positionComboBox_SelectedIndexChanged_1(object sender, EventArgs e)
         {
             getPredictionChart(positionComboBox.SelectedIndex);
         }

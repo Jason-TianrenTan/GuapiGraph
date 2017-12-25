@@ -40,8 +40,6 @@
             this.menubar = new System.Windows.Forms.MenuStrip();
             this.menuitem_start = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_func_catchInfo = new System.Windows.Forms.ToolStripMenuItem();
-            this.menu_show = new System.Windows.Forms.ToolStripMenuItem();
-            this.menu_item_show_compannylist = new System.Windows.Forms.ToolStripMenuItem();
             this.table = new System.Windows.Forms.TabControl();
             this.job_chart_page = new System.Windows.Forms.TabPage();
             this.company_job_chart_label = new System.Windows.Forms.Label();
@@ -53,19 +51,19 @@
             this.companyList_skill_label = new System.Windows.Forms.Label();
             this.tree_view_label = new System.Windows.Forms.Label();
             this.company_skill_list = new System.Windows.Forms.ListBox();
+            this.linearRegressionPage = new System.Windows.Forms.TabPage();
+            this.LRText = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.predictionLabel2 = new System.Windows.Forms.Label();
+            this.predictionYearLabel1 = new System.Windows.Forms.Label();
+            this.Split1 = new System.Windows.Forms.Label();
+            this.PredictionsLabel = new System.Windows.Forms.Label();
+            this.SelectPositionLabel = new System.Windows.Forms.Label();
+            this.positionComboBox = new System.Windows.Forms.ComboBox();
+            this.predictionLabel = new System.Windows.Forms.Label();
+            this.PredictionChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.state_label = new System.Windows.Forms.Label();
             this.infomation_state = new System.Windows.Forms.Label();
-            this.linearRegressionPage = new System.Windows.Forms.TabPage();
-            this.PredictionChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.predictionLabel = new System.Windows.Forms.Label();
-            this.positionComboBox = new System.Windows.Forms.ComboBox();
-            this.SelectPositionLabel = new System.Windows.Forms.Label();
-            this.PredictionsLabel = new System.Windows.Forms.Label();
-            this.Split1 = new System.Windows.Forms.Label();
-            this.predictionYearLabel1 = new System.Windows.Forms.Label();
-            this.predictionLabel2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.LRText = new System.Windows.Forms.Label();
             this.menubar.SuspendLayout();
             this.table.SuspendLayout();
             this.job_chart_page.SuspendLayout();
@@ -80,8 +78,7 @@
             // 
             this.menubar.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menubar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuitem_start,
-            this.menu_show});
+            this.menuitem_start});
             this.menubar.Location = new System.Drawing.Point(0, 0);
             this.menubar.Name = "menubar";
             this.menubar.Size = new System.Drawing.Size(867, 25);
@@ -102,21 +99,6 @@
             this.menu_func_catchInfo.Size = new System.Drawing.Size(177, 22);
             this.menu_func_catchInfo.Text = "catch information";
             this.menu_func_catchInfo.Click += new System.EventHandler(this.menu_func_catchInfo_Click);
-            // 
-            // menu_show
-            // 
-            this.menu_show.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menu_item_show_compannylist});
-            this.menu_show.Name = "menu_show";
-            this.menu_show.Size = new System.Drawing.Size(50, 21);
-            this.menu_show.Text = "show";
-            // 
-            // menu_item_show_compannylist
-            // 
-            this.menu_item_show_compannylist.Name = "menu_item_show_compannylist";
-            this.menu_item_show_compannylist.Size = new System.Drawing.Size(169, 22);
-            this.menu_item_show_compannylist.Text = "show companys";
-            this.menu_item_show_compannylist.Click += new System.EventHandler(this.menu_item_show_compannylist_Click);
             // 
             // table
             // 
@@ -167,8 +149,9 @@
             this.company_job_list.ItemHeight = 21;
             this.company_job_list.Location = new System.Drawing.Point(13, 124);
             this.company_job_list.Name = "company_job_list";
-            this.company_job_list.Size = new System.Drawing.Size(389, 445);
+            this.company_job_list.Size = new System.Drawing.Size(389, 424);
             this.company_job_list.TabIndex = 4;
+            this.company_job_list.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.company_job_list_MouseDoubleClick);
             // 
             // job_chart
             // 
@@ -216,6 +199,7 @@
             this.radar_chart.Size = new System.Drawing.Size(385, 463);
             this.radar_chart.TabIndex = 7;
             this.radar_chart.Text = "radar_chart";
+            this.radar_chart.Visible = false;
             // 
             // companyList_skill_label
             // 
@@ -241,27 +225,9 @@
             this.company_skill_list.ItemHeight = 21;
             this.company_skill_list.Location = new System.Drawing.Point(17, 118);
             this.company_skill_list.Name = "company_skill_list";
-            this.company_skill_list.Size = new System.Drawing.Size(389, 445);
+            this.company_skill_list.Size = new System.Drawing.Size(389, 424);
             this.company_skill_list.TabIndex = 2;
             this.company_skill_list.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.skill_job_list_MouseDoubleClick);
-            // 
-            // state_label
-            // 
-            this.state_label.AutoSize = true;
-            this.state_label.Location = new System.Drawing.Point(12, 677);
-            this.state_label.Name = "state_label";
-            this.state_label.Size = new System.Drawing.Size(140, 21);
-            this.state_label.TabIndex = 3;
-            this.state_label.Text = "infomation state:";
-            // 
-            // infomation_state
-            // 
-            this.infomation_state.AutoSize = true;
-            this.infomation_state.Location = new System.Drawing.Point(190, 677);
-            this.infomation_state.Name = "infomation_state";
-            this.infomation_state.Size = new System.Drawing.Size(38, 21);
-            this.infomation_state.TabIndex = 4;
-            this.infomation_state.Text = "null";
             // 
             // linearRegressionPage
             // 
@@ -283,6 +249,90 @@
             this.linearRegressionPage.Text = "Predictions";
             this.linearRegressionPage.UseVisualStyleBackColor = true;
             // 
+            // LRText
+            // 
+            this.LRText.AutoSize = true;
+            this.LRText.Location = new System.Drawing.Point(405, 430);
+            this.LRText.Name = "LRText";
+            this.LRText.Size = new System.Drawing.Size(215, 21);
+            this.LRText.TabIndex = 9;
+            this.LRText.Text = "Linear Regression Formula:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(17, 530);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(171, 21);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Prediction for 2018-2";
+            // 
+            // predictionLabel2
+            // 
+            this.predictionLabel2.AutoSize = true;
+            this.predictionLabel2.Location = new System.Drawing.Point(17, 495);
+            this.predictionLabel2.Name = "predictionLabel2";
+            this.predictionLabel2.Size = new System.Drawing.Size(171, 21);
+            this.predictionLabel2.TabIndex = 7;
+            this.predictionLabel2.Text = "Prediction for 2018-2";
+            // 
+            // predictionYearLabel1
+            // 
+            this.predictionYearLabel1.AutoSize = true;
+            this.predictionYearLabel1.Location = new System.Drawing.Point(17, 460);
+            this.predictionYearLabel1.Name = "predictionYearLabel1";
+            this.predictionYearLabel1.Size = new System.Drawing.Size(171, 21);
+            this.predictionYearLabel1.TabIndex = 6;
+            this.predictionYearLabel1.Text = "Prediction for 2018-1";
+            // 
+            // Split1
+            // 
+            this.Split1.BackColor = System.Drawing.Color.Silver;
+            this.Split1.Location = new System.Drawing.Point(13, 454);
+            this.Split1.Name = "Split1";
+            this.Split1.Size = new System.Drawing.Size(691, 1);
+            this.Split1.TabIndex = 5;
+            this.Split1.Text = "label1";
+            // 
+            // PredictionsLabel
+            // 
+            this.PredictionsLabel.AutoSize = true;
+            this.PredictionsLabel.Font = new System.Drawing.Font("Calibri", 15F);
+            this.PredictionsLabel.Location = new System.Drawing.Point(13, 430);
+            this.PredictionsLabel.Name = "PredictionsLabel";
+            this.PredictionsLabel.Size = new System.Drawing.Size(102, 24);
+            this.PredictionsLabel.TabIndex = 4;
+            this.PredictionsLabel.Text = "Predictions";
+            // 
+            // SelectPositionLabel
+            // 
+            this.SelectPositionLabel.AutoSize = true;
+            this.SelectPositionLabel.Font = new System.Drawing.Font("Calibri", 16F);
+            this.SelectPositionLabel.Location = new System.Drawing.Point(12, 390);
+            this.SelectPositionLabel.Name = "SelectPositionLabel";
+            this.SelectPositionLabel.Size = new System.Drawing.Size(143, 27);
+            this.SelectPositionLabel.TabIndex = 3;
+            this.SelectPositionLabel.Text = "Select Position";
+            // 
+            // positionComboBox
+            // 
+            this.positionComboBox.FormattingEnabled = true;
+            this.positionComboBox.Location = new System.Drawing.Point(161, 393);
+            this.positionComboBox.Name = "positionComboBox";
+            this.positionComboBox.Size = new System.Drawing.Size(144, 29);
+            this.positionComboBox.TabIndex = 2;
+            this.positionComboBox.SelectedIndexChanged += new System.EventHandler(this.positionComboBox_SelectedIndexChanged_1);
+            // 
+            // predictionLabel
+            // 
+            this.predictionLabel.AutoSize = true;
+            this.predictionLabel.Font = new System.Drawing.Font("Calibri", 16F);
+            this.predictionLabel.Location = new System.Drawing.Point(6, 15);
+            this.predictionLabel.Name = "predictionLabel";
+            this.predictionLabel.Size = new System.Drawing.Size(321, 27);
+            this.predictionLabel.TabIndex = 1;
+            this.predictionLabel.Text = "Future Predictions(2018.1-2018.3)";
+            // 
             // PredictionChart
             // 
             chartArea3.Name = "ChartArea1";
@@ -297,91 +347,25 @@
             this.PredictionChart.Series.Add(series3);
             this.PredictionChart.Size = new System.Drawing.Size(845, 342);
             this.PredictionChart.TabIndex = 0;
-            this.PredictionChart.Text = "chart1";
+            this.PredictionChart.Text = "PredictionChart";
             // 
-            // predictionLabel
+            // state_label
             // 
-            this.predictionLabel.AutoSize = true;
-            this.predictionLabel.Font = new System.Drawing.Font("Calibri", 16F);
-            this.predictionLabel.Location = new System.Drawing.Point(6, 15);
-            this.predictionLabel.Name = "predictionLabel";
-            this.predictionLabel.Size = new System.Drawing.Size(321, 27);
-            this.predictionLabel.TabIndex = 1;
-            this.predictionLabel.Text = "Future Predictions(2018.1-2018.3)";
+            this.state_label.AutoSize = true;
+            this.state_label.Location = new System.Drawing.Point(12, 677);
+            this.state_label.Name = "state_label";
+            this.state_label.Size = new System.Drawing.Size(140, 21);
+            this.state_label.TabIndex = 3;
+            this.state_label.Text = "infomation state:";
             // 
-            // positionComboBox
+            // infomation_state
             // 
-            this.positionComboBox.FormattingEnabled = true;
-            this.positionComboBox.Location = new System.Drawing.Point(161, 393);
-            this.positionComboBox.Name = "positionComboBox";
-            this.positionComboBox.Size = new System.Drawing.Size(144, 29);
-            this.positionComboBox.TabIndex = 2;
-            this.positionComboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
-            // SelectPositionLabel
-            // 
-            this.SelectPositionLabel.AutoSize = true;
-            this.SelectPositionLabel.Font = new System.Drawing.Font("Calibri", 16F);
-            this.SelectPositionLabel.Location = new System.Drawing.Point(12, 390);
-            this.SelectPositionLabel.Name = "SelectPositionLabel";
-            this.SelectPositionLabel.Size = new System.Drawing.Size(143, 27);
-            this.SelectPositionLabel.TabIndex = 3;
-            this.SelectPositionLabel.Text = "Select Position";
-            // 
-            // PredictionsLabel
-            // 
-            this.PredictionsLabel.AutoSize = true;
-            this.PredictionsLabel.Font = new System.Drawing.Font("Calibri", 15F);
-            this.PredictionsLabel.Location = new System.Drawing.Point(13, 430);
-            this.PredictionsLabel.Name = "PredictionsLabel";
-            this.PredictionsLabel.Size = new System.Drawing.Size(102, 24);
-            this.PredictionsLabel.TabIndex = 4;
-            this.PredictionsLabel.Text = "Predictions";
-            // 
-            // Split1
-            // 
-            this.Split1.BackColor = System.Drawing.Color.Silver;
-            this.Split1.Location = new System.Drawing.Point(13, 454);
-            this.Split1.Name = "Split1";
-            this.Split1.Size = new System.Drawing.Size(691, 1);
-            this.Split1.TabIndex = 5;
-            this.Split1.Text = "label1";
-            // 
-            // predictionYearLabel1
-            // 
-            this.predictionYearLabel1.AutoSize = true;
-            this.predictionYearLabel1.Location = new System.Drawing.Point(17, 460);
-            this.predictionYearLabel1.Name = "predictionYearLabel1";
-            this.predictionYearLabel1.Size = new System.Drawing.Size(171, 21);
-            this.predictionYearLabel1.TabIndex = 6;
-            this.predictionYearLabel1.Text = "Prediction for 2018-1";
-            // 
-            // predictionLabel2
-            // 
-            this.predictionLabel2.AutoSize = true;
-            this.predictionLabel2.Location = new System.Drawing.Point(17, 495);
-            this.predictionLabel2.Name = "predictionLabel2";
-            this.predictionLabel2.Size = new System.Drawing.Size(171, 21);
-            this.predictionLabel2.TabIndex = 7;
-            this.predictionLabel2.Text = "Prediction for 2018-2";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 530);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(171, 21);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Prediction for 2018-2";
-            // 
-            // LRText
-            // 
-            this.LRText.AutoSize = true;
-            this.LRText.Location = new System.Drawing.Point(405, 430);
-            this.LRText.Name = "LRText";
-            this.LRText.Size = new System.Drawing.Size(215, 21);
-            this.LRText.TabIndex = 9;
-            this.LRText.Text = "Linear Regression Formula:";
+            this.infomation_state.AutoSize = true;
+            this.infomation_state.Location = new System.Drawing.Point(190, 677);
+            this.infomation_state.Name = "infomation_state";
+            this.infomation_state.Size = new System.Drawing.Size(38, 21);
+            this.infomation_state.TabIndex = 4;
+            this.infomation_state.Text = "null";
             // 
             // Form1
             // 
@@ -428,11 +412,9 @@
         private System.Windows.Forms.Label tree_view_label;
         private System.Windows.Forms.Label state_label;
         private System.Windows.Forms.Label infomation_state;
-        private System.Windows.Forms.ToolStripMenuItem menu_show;
         private System.Windows.Forms.Label company_job_chart_label;
         private System.Windows.Forms.Label companyList_label;
         private System.Windows.Forms.ListBox company_job_list;
-        private System.Windows.Forms.ToolStripMenuItem menu_item_show_compannylist;
         private System.Windows.Forms.Label companyList_skill_label;
         private System.Windows.Forms.DataVisualization.Charting.Chart radar_chart;
         private System.Windows.Forms.TabPage linearRegressionPage;
