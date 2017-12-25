@@ -31,7 +31,7 @@ namespace GuapiGraph.Utils
         /// <param name="uid"></param>
         public DBUtils(string Dsn, string uid)
         {
-            string str_conn = @"Dsn=" + Dsn + ";uid=" + uid;
+            str_conn = @"Dsn=" + Dsn + ";uid=" + uid;
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace GuapiGraph.Utils
         {
             using (OdbcConnection conn = OpenConnection())
             {
-                OdbcCommand odbc = new OdbcCommand(cmd);
+                OdbcCommand odbc = new OdbcCommand(cmd, conn);
 
                 Console.WriteLine("DBUtils.ExecuteCmd cmd : " + cmd);
 
@@ -60,7 +60,7 @@ namespace GuapiGraph.Utils
         {
             using (OdbcConnection conn = OpenConnection())
             {
-                OdbcCommand odbc = new OdbcCommand(cmd);
+                OdbcCommand odbc = new OdbcCommand(cmd, conn);
 
                 Console.WriteLine("DBUtils.ExecuteCmd cmd : " + cmd);
 

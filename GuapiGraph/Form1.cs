@@ -49,7 +49,7 @@ namespace GuapiGraph
             string tips = "start catching information\n" + "target:https://www.nowcoder.com/recommend\n";
             MessageBox.Show(tips);
             //获取网络数据
-
+            modal.readDataFromNet();
         }
 
       

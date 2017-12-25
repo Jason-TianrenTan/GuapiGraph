@@ -14,14 +14,14 @@ namespace GuapiGraph
     class WebSpider
     {
         //主页面
-        private const String url = "https://www.nowcoder.com/recommend";
+        private const string url = "https://www.nowcoder.com/recommend";
         //获取职位列表 ".../list?page=1&address=北京"
-        private const String jobListUrl = "https://www.nowcoder.com/recommend-intern/list?";
+        private const string jobListUrl = "https://www.nowcoder.com/recommend-intern/list?";
         //获取工作详情 ".../70?jobId=1059"
-        private const String jobDetailUrl = "https://www.nowcoder.com/recommend-intern/";
+        private const string jobDetailUrl = "https://www.nowcoder.com/recommend-intern/";
 
         //所有的地址
-        private String[] addresses;
+        private string[] addresses;
         //所有的岗位
         private List<JobInfo> jobList = new List<JobInfo>();
 
@@ -58,7 +58,7 @@ namespace GuapiGraph
                 response.GetResponseStream();
                 StreamReader sr = new StreamReader(response.GetResponseStream());
                 //处理添加html头
-                String html = AddHtmlTag(sr);
+                string html = AddHtmlTag(sr);
                 sr.Close();
 
                 //Console.WriteLine("get address html = " + s);
@@ -67,7 +67,7 @@ namespace GuapiGraph
                 htmlDoc.LoadHtml(html);
                 var list = htmlDoc.DocumentNode.SelectNodes("//a[@class='js-address']");
 
-                addresses = new String[list.Count];
+                addresses = new string[list.Count];
                 for (int i = 0; i < list.Count; i++)
                 {
                     addresses[i] = list[i].InnerText;
@@ -112,7 +112,7 @@ namespace GuapiGraph
             do
             {
                 //获取json数据
-                String json = GetJobPageJson(p.Item1, page);
+                string json = GetJobPageJson(p.Item1, page);
 
                 //解析json
                 JObject o = JObject.Parse(json);
@@ -152,7 +152,7 @@ namespace GuapiGraph
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             response.GetResponseStream();
             StreamReader sr = new StreamReader(response.GetResponseStream());
-            String json = @sr.ReadToEnd();
+            string json = @sr.ReadToEnd();
 
             sr.Close();
             response.Close();
@@ -163,8 +163,8 @@ namespace GuapiGraph
         //获取职位详情
         private void GetJobDetail(JToken item)
         {
-            String companyId = item.Value<String>("internCompanyId");
-            String id = item.Value<String>("id");
+            string companyId = item.Value<string>("internCompanyId");
+            string id = item.Value<string>("id");
             //时间戳
             string timeStamp = item.Value<string>("createTime");
 
@@ -195,40 +195,31 @@ namespace GuapiGraph
             htmlDoc.LoadHtml(html);
 
             //工作名称
-            String jobName = htmlDoc.DocumentNode.SelectNodes("//div[@class='rec-job']/h2").First().InnerText.Trim();
+            string jobName = htmlDoc.DocumentNode.SelectNodes("//div[@class='rec-job']/h2").First().InnerText.Trim();
 
             //工作职责
-            //List<String> duties = new List<string>();
-            String duties = "";
-            var nodes = htmlDoc.DocumentNode.SelectNodes("//dl[@class='job-duty']/dt");
-            for (int i = 1; i < nodes.Count; i++)
-            {
-                //jobDuty.Add(nodes[i].InnerText);
-                duties += nodes[i].InnerText.Trim();
-            }
+            var nodes = htmlDoc.DocumentNode.SelectNodes("//dl[@class='job-duty']");
+            string duties = nodes[0].InnerHtml.Trim();
+            duties = duties.Substring(4);
 
             //工作需求
-            //List<String> jobRequire = new List<string>();
-            String qualifications = "";
             nodes = htmlDoc.DocumentNode.SelectNodes("//div[@class='rec-job']/dl[2]");
-            for (int i = 1; i < nodes.Count; i++)
-            {
-                qualifications += nodes[i].InnerText.Trim();
-            }
+            string qualifications = nodes[0].InnerHtml.Trim();
+            qualifications = qualifications.Substring(4);
 
             //工作地
-            String address = htmlDoc.DocumentNode.SelectNodes("//p[@class='com-lbs']").First().InnerText.Trim();
+            string address = htmlDoc.DocumentNode.SelectNodes("//p[@class='com-lbs']").First().InnerText.Trim();
 
             //公司名称
-            String companyName = htmlDoc.DocumentNode.SelectNodes("//h3[@class='teacher-name']").First().InnerText.Trim();
+            string companyName = htmlDoc.DocumentNode.SelectNodes("//h3[@class='teacher-name']").First().InnerText.Trim();
 
             //公司简介
-            String companyRec = htmlDoc.DocumentNode.SelectNodes("//div[@class='com-detail']/p[1]").First().InnerText.Trim();
+            string companyRec = htmlDoc.DocumentNode.SelectNodes("//div[@class='com-detail']/p[1]").First().InnerText.Trim();
 
             //公司网址
             //注意：滴滴的有一个没有网址
             var temp = htmlDoc.DocumentNode.SelectNodes("//div[@class='com-detail']/p[last()]/a");
-            String companySite = temp == null ? "" : temp.First().InnerText.Trim();
+            string companySite = temp == null ? "" : temp.First().InnerText.Trim();
 
             JobInfo job = new JobInfo(companyName, address, timeStamp, jobName, duties, qualifications);
             return job;
@@ -237,7 +228,7 @@ namespace GuapiGraph
         //处理添加html头
         private string AddHtmlTag(StreamReader sr)
         {
-            String s = @sr.ReadLine();
+            string s = @sr.ReadLine();
             s += @sr.ReadLine();
             s += @"<html>";
             s += @sr.ReadToEnd();

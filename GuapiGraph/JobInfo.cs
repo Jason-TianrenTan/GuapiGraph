@@ -13,13 +13,14 @@ namespace GuapiGraph
         //公司地址
         public string address { get; set; }
         //创建时间
+        private string _createTime;
         public string createTime
         {
             get {
-                return createTime;
+                return _createTime;
             }
             set {
-                FormDate(value);
+                _createTime = FormDate(value);
             } }
         //职位名称
         public string title { get; set; }
@@ -47,6 +48,7 @@ namespace GuapiGraph
         //将时间戳转为日期
         private string FormDate(string timeStamp)
         {
+            timeStamp = timeStamp.Substring(0, timeStamp.Length - 3);
             DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
             DateTime dt = startTime.AddSeconds(Convert.ToDouble(timeStamp));
             System.Console.WriteLine("form date: " + dt.ToString("yyyy-MM-dd"));

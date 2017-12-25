@@ -10,18 +10,18 @@ namespace GuapiGraph
 {
     class ModalImpl : DataModel
     {
-        private DBUtils db = new DBUtils();
+        private static DBUtils db = new DBUtils();
 
         private static ModalImpl modal = new ModalImpl();
 
         private ModalImpl()
         {
             //新建数据库
-            db.ExecuteCmd("drop database if exists job;");
-            db.ExecuteCmd("create database job;");
+            //db.ExecuteCmd("drop database if exists job;");
+            db.ExecuteCmd("create database if not exists job;");
 
             //创建表
-            db.ExecuteCmd("create table web (" +
+            db.ExecuteCmd("create table if not exists web (" +
                 "companyName text," +
                 "address text," +
                 "createTime text," +
@@ -29,7 +29,7 @@ namespace GuapiGraph
                 "duties text," +
                 "qualifications text" +
                 ");");
-            db.ExecuteCmd("create table jobs (" +
+            db.ExecuteCmd("create table if not exists jobs (" +
                 "company text," +
                 "month text," +
                 "position text," +

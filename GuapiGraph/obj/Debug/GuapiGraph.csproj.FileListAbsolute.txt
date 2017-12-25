@@ -20,3 +20,16 @@ D:\githubProgram\GuapiGraph\GuapiGraph\bin\Debug\Newtonsoft.Json.xml
 D:\githubProgram\GuapiGraph\GuapiGraph\obj\Debug\GuapiGraph.Form1.resources
 D:\githubProgram\GuapiGraph\GuapiGraph\obj\Debug\GuapiGraph.exe
 D:\githubProgram\GuapiGraph\GuapiGraph\obj\Debug\GuapiGraph.pdb
+E:\Microsoft Visual Studio\project\GuapiGraph\GuapiGraph\bin\Debug\GuapiGraph.exe.config
+E:\Microsoft Visual Studio\project\GuapiGraph\GuapiGraph\bin\Debug\GuapiGraph.exe
+E:\Microsoft Visual Studio\project\GuapiGraph\GuapiGraph\bin\Debug\GuapiGraph.pdb
+E:\Microsoft Visual Studio\project\GuapiGraph\GuapiGraph\bin\Debug\HtmlAgilityPack.dll
+E:\Microsoft Visual Studio\project\GuapiGraph\GuapiGraph\bin\Debug\JiebaNet.Analyser.dll
+E:\Microsoft Visual Studio\project\GuapiGraph\GuapiGraph\bin\Debug\JiebaNet.Segmenter.dll
+E:\Microsoft Visual Studio\project\GuapiGraph\GuapiGraph\bin\Debug\Newtonsoft.Json.dll
+E:\Microsoft Visual Studio\project\GuapiGraph\GuapiGraph\bin\Debug\HtmlAgilityPack.pdb
+E:\Microsoft Visual Studio\project\GuapiGraph\GuapiGraph\bin\Debug\HtmlAgilityPack.xml
+E:\Microsoft Visual Studio\project\GuapiGraph\GuapiGraph\bin\Debug\Newtonsoft.Json.xml
+E:\Microsoft Visual Studio\project\GuapiGraph\GuapiGraph\obj\Debug\GuapiGraph.Form1.resources
+E:\Microsoft Visual Studio\project\GuapiGraph\GuapiGraph\obj\Debug\GuapiGraph.exe
+E:\Microsoft Visual Studio\project\GuapiGraph\GuapiGraph\obj\Debug\GuapiGraph.pdb
