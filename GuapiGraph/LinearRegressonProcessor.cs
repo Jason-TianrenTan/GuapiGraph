@@ -10,16 +10,16 @@ namespace GuapiGraph
     class LinearRegressonProcessor
     {
         private List<int> xList = null;
-        private List<double> yList = null;
+        private List<int> yList = null;
         private int count = 0;
 
-        public LinearRegressonProcessor(List<string> monthList, List<double> countList)
+        public LinearRegressonProcessor(List<string> monthList, List<int> countList)
         {
             init(monthList, countList);
         }
 
 
-        private void init(List<string> monthList, List<double> countList)
+        private void init(List<string> monthList, List<int> countList)
         {
             xList = new List<int>();
             int minX = -1;
