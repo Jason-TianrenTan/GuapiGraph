@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GuapiGraph
 {
-    class ModalImpl //: DataModel
+    class ModalImpl : DataModel
     {
         private static DBUtils db = new DBUtils();
 
@@ -208,6 +208,66 @@ namespace GuapiGraph
             return count;
         }
 
+        /// <summary>
+        /// 获取某个职位（运维/前端）需要的技能(java,unix)
+        /// </summary>
+        /// <param name="position">职位名字</param>
+        /// <returns>所需技能列表</returns>
+        public List<string> getSkillOfPosition(string position)
+        {
+            DataSet dataSet = db.QueryCmd(@"select skillList from jobs where skillList like '%" + position + "%'");
+            DataTable table = dataSet.Tables[0];
+            List<string> list = new List<string>();
+            foreach (DataRow row in table.Rows)
+            {
+                list.AddRange(StringToList(Convert.ToString(row[0])));
+            }
+            Console.WriteLine("get Skill Of Position");
+            return list;
+        }
+
+        /// <summary>
+        /// 获取某月份某职位的个数
+        /// </summary>
+        /// <param name="position">职位名字（运维/前端）</param>
+        /// <param name="month">月份，格式参考"2017-12"</param>
+        /// <returns></returns>
+        public int getPositionCountOfMonth(string position, string month)
+        {
+            int count = db.CountCmd(@"select position from jobs where month like '%" + month + "%'");
+            Console.WriteLine("get Position Count Of Month : " + count);
+            return count;
+        }
+
+        /// <summary>
+        /// 获取职位列表(前端/运维/安全)
+        /// 以及对应的哪些月份有岗位
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, List<string>> getPosition_And_Months()
+        {
+            Dictionary<string, List<string>> dictionary = new Dictionary<string, List<string>>();
+
+            DataSet dataSet = db.QueryCmd(@"select position,month from jobs;");
+            DataTable table = dataSet.Tables[0];
+
+            foreach (DataRow row in table.Rows)
+            {
+                if (dictionary.ContainsKey(Convert.ToString(row[0]))) {
+                    List<string> list = dictionary[Convert.ToString(row[0])];
+                    if (!list.Contains(Convert.ToString(row[0]).Substring(0, 7)))
+                    {
+                        list.Add(Convert.ToString(row[0]));
+                        dictionary[Convert.ToString(row[0])] = list;
+                    }
+                }
+            }
+            Console.WriteLine("get Position And Months");
+
+            return dictionary;
+        }
+
+
         //将list转为一定格式的string
         private string ListToString(List<string> list)
         {
@@ -219,14 +279,11 @@ namespace GuapiGraph
             return s.TrimEnd(',');
         }
 
-        public List<string> getSkillOfPosition(string position)
+        //将格式化的string转为List
+        private List<string> StringToList(string form)
         {
-            return null;
-        }
-
-        public int getPositionCountOfMonth(string position, string month)
-        {
-            return 0;
+            string[] strings = form.Split(',');
+            return strings.ToList();
         }
     }
 }
