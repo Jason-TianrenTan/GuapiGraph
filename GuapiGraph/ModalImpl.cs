@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GuapiGraph
 {
-    class ModalImpl : DataModel
+    class ModalImpl //: DataModel
     {
         private static DBUtils db = new DBUtils();
 
