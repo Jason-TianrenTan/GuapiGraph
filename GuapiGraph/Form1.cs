@@ -14,13 +14,13 @@ namespace GuapiGraph
     public partial class Form1 : Form
     {
 
-        private DataModel modal = ModalImpl.GetInstance();
+        private DataModel modal = null;//ModalImpl.GetInstance();
 
         public Form1()
         {
             InitializeComponent();
             string[] months = { "2016-12", "2017-1", "2017-2", "2017-3" };
-            double[] count = { 30,40,50,90 };
+            double[] count = { 30,40,50,60 };
             double k, b;
             new LinearRegressonProcessor(new List<string>(months), new List<double>(count)).Calculate(out k, out b);
             Console.WriteLine("k = " + k + ", b = " + b);

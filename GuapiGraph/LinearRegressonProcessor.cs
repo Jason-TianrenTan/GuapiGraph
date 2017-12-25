@@ -22,11 +22,18 @@ namespace GuapiGraph
         private void init(List<string> monthList, List<double> countList)
         {
             xList = new List<int>();
+            int minX = -1;
             foreach (string mStr in monthList)
             {
                 Month month = new Month(mStr);
-                xList.Add(month.convertToNumber());
+                int monthValue = month.convertToNumber();
+                if (minX == -1)
+                    minX = monthValue;
+                xList.Add(monthValue);
+                minX = minX > monthValue ? monthValue : minX;
             }
+            for (int i = 0; i < xList.Count; i++)
+                xList[i] -= minX;
             yList = countList;
             count = xList.Count < yList.Count ? xList.Count : yList.Count;
         }
