@@ -13,7 +13,7 @@ namespace GuapiGraph
         /// 联网获取职位信息
         /// </summary>
         /// <returns>新版Bean集合</returns>
-        Task<List<string>> readDataFromNet();
+        Task<List<JobInfo>> readDataFromNet();
 
 
         /// <summary>

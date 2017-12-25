@@ -72,6 +72,7 @@
     </Compile>
     <Compile Include="JobBean.cs" />
     <Compile Include="JobInfo.cs" />
+    <Compile Include="LinearRegressonProcessor.cs" />
     <Compile Include="ModalImpl.cs" />
     <Compile Include="Parsable.cs" />
     <Compile Include="Parser.cs" />

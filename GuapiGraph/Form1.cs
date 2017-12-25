@@ -19,6 +19,11 @@ namespace GuapiGraph
         public Form1()
         {
             InitializeComponent();
+            string[] months = { "2016-12", "2017-1", "2017-2", "2017-3" };
+            double[] count = { 30,40,50,90 };
+            double k, b;
+            new LinearRegressonProcessor(new List<string>(months), new List<double>(count)).Calculate(out k, out b);
+            Console.WriteLine("k = " + k + ", b = " + b);
         }
 
         private void job_button_show_Click(object sender, EventArgs e)
