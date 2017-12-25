@@ -13,9 +13,11 @@ namespace GuapiGraph
 {
     public partial class Form1 : Form
     {
-        Dictionary<int, List<string>> dict = new Dictionary<int, List<string>>();
+        private List<int>[] count;//每个岗位的每月职位个数
+        private List<string>[] months;//有效月
         private DataModel modal = ModalImpl.GetInstance();
-
+        bool inited = false;
+        
         public Form1()
         {
             InitializeComponent();
@@ -32,15 +34,22 @@ namespace GuapiGraph
         private void initComboBox()
         {
             Dictionary<string, List<string>> dict_ = modal.getPosition_And_Months();
+            count = new List<int>[dict_.Count];
+            months = new List<string>[dict_.Count];
+            for (int i=0;i<dict_.Count;i++)
+            {
+                count[i] = new List<int>();
+                months[i] = new List<string>();
+            }
+
             int index = 0;
             foreach (var entry in dict_)
             {
                 positionComboBox.Items.Add(entry.Key);
-                List<string> tempList = new List<string>();
+                count[index].Add(entry.Value.Count);
                 foreach (string str in entry.Value)
-                    tempList.Add(str);
-                dict.Add(index, tempList);
-                
+                    months[index].Add(str);
+
                 index++;
             }
 
@@ -49,70 +58,74 @@ namespace GuapiGraph
 
         private void initPredictonChart()
         {
-            getPredictionChart(0);
-            //标题
-            PredictionChart.Titles.Add("统计分析表");
-            PredictionChart.Titles[0].ForeColor = Color.Black;
-            PredictionChart.Titles[0].Font = new Font("Calibri", 16f, FontStyle.Regular);
-            PredictionChart.Titles[0].Alignment = ContentAlignment.TopCenter;
+            if (!inited)
+            {
+                inited = true;
+                getPredictionChart(0);
+                //标题
+                PredictionChart.Titles.Add("统计分析表");
+                PredictionChart.Titles[0].ForeColor = Color.Black;
+                PredictionChart.Titles[0].Font = new Font("Calibri", 16f, FontStyle.Regular);
+                PredictionChart.Titles[0].Alignment = ContentAlignment.TopCenter;
 
-            //控件背景
-            PredictionChart.BackColor = Color.Transparent;
-            //图表区背景
-            PredictionChart.ChartAreas[0].BackColor = Color.Transparent;
-            PredictionChart.ChartAreas[0].BorderColor = Color.Transparent;
-            //X轴标签间距
-            PredictionChart.ChartAreas[0].AxisX.Interval = 1;
-            PredictionChart.ChartAreas[0].AxisX.LabelStyle.IsStaggered = true;
-            PredictionChart.ChartAreas[0].AxisX.LabelStyle.Angle = -45;
-            PredictionChart.ChartAreas[0].AxisX.TitleFont = new Font("Calibri", 14f, FontStyle.Regular);
-            PredictionChart.ChartAreas[0].AxisX.TitleForeColor = Color.Black;
+                //控件背景
+                PredictionChart.BackColor = Color.Transparent;
+                //图表区背景
+                PredictionChart.ChartAreas[0].BackColor = Color.Transparent;
+                PredictionChart.ChartAreas[0].BorderColor = Color.Transparent;
+                //X轴标签间距
+                PredictionChart.ChartAreas[0].AxisX.Interval = 1;
+                PredictionChart.ChartAreas[0].AxisX.LabelStyle.IsStaggered = true;
+                PredictionChart.ChartAreas[0].AxisX.LabelStyle.Angle = -45;
+                PredictionChart.ChartAreas[0].AxisX.TitleFont = new Font("Calibri", 14f, FontStyle.Regular);
+                PredictionChart.ChartAreas[0].AxisX.TitleForeColor = Color.Black;
 
-            //X坐标轴颜色
-            PredictionChart.ChartAreas[0].AxisX.LineColor = ColorTranslator.FromHtml("#38587a"); ;
-            PredictionChart.ChartAreas[0].AxisX.LabelStyle.ForeColor = Color.Black;
-            PredictionChart.ChartAreas[0].AxisX.LabelStyle.Font = new Font("Calibri", 10f, FontStyle.Regular);
+                //X坐标轴颜色
+                PredictionChart.ChartAreas[0].AxisX.LineColor = ColorTranslator.FromHtml("#38587a"); ;
+                PredictionChart.ChartAreas[0].AxisX.LabelStyle.ForeColor = Color.Black;
+                PredictionChart.ChartAreas[0].AxisX.LabelStyle.Font = new Font("Calibri", 10f, FontStyle.Regular);
 
-            //X轴网络线条
-            PredictionChart.ChartAreas[0].AxisX.MajorGrid.Enabled = true;
-            PredictionChart.ChartAreas[0].AxisX.MajorGrid.LineColor = ColorTranslator.FromHtml("#2c4c6d");
+                //X轴网络线条
+                PredictionChart.ChartAreas[0].AxisX.MajorGrid.Enabled = true;
+                PredictionChart.ChartAreas[0].AxisX.MajorGrid.LineColor = ColorTranslator.FromHtml("#2c4c6d");
 
-            //Y坐标轴颜色
-            PredictionChart.ChartAreas[0].AxisY.LineColor = ColorTranslator.FromHtml("#38587a");
-            PredictionChart.ChartAreas[0].AxisY.LabelStyle.ForeColor = Color.Black;
-            PredictionChart.ChartAreas[0].AxisY.LabelStyle.Font = new Font("Calibri", 10f, FontStyle.Regular);
-            //Y坐标轴标题
-            PredictionChart.ChartAreas[0].AxisY.Title = "职位数目";
-            PredictionChart.ChartAreas[0].AxisY.TitleFont = new Font("Calibri", 10f, FontStyle.Regular);
-            PredictionChart.ChartAreas[0].AxisY.TitleForeColor = Color.Black;
-            PredictionChart.ChartAreas[0].AxisY.TextOrientation = TextOrientation.Rotated270;
-            //Y轴网格线条
-            PredictionChart.ChartAreas[0].AxisY.MajorGrid.Enabled = true;
-            PredictionChart.ChartAreas[0].AxisY.MajorGrid.LineColor = ColorTranslator.FromHtml("#2c4c6d");
-            PredictionChart.ChartAreas[0].AxisY2.LineColor = Color.Transparent;
-            PredictionChart.ChartAreas[0].BackGradientStyle = GradientStyle.TopBottom;
-            Legend legend = new Legend("legend");
-            legend.Title = "legendTitle";
+                //Y坐标轴颜色
+                PredictionChart.ChartAreas[0].AxisY.LineColor = ColorTranslator.FromHtml("#38587a");
+                PredictionChart.ChartAreas[0].AxisY.LabelStyle.ForeColor = Color.Black;
+                PredictionChart.ChartAreas[0].AxisY.LabelStyle.Font = new Font("Calibri", 10f, FontStyle.Regular);
+                //Y坐标轴标题
+                PredictionChart.ChartAreas[0].AxisY.Title = "职位数目";
+                PredictionChart.ChartAreas[0].AxisY.TitleFont = new Font("Calibri", 10f, FontStyle.Regular);
+                PredictionChart.ChartAreas[0].AxisY.TitleForeColor = Color.Black;
+                PredictionChart.ChartAreas[0].AxisY.TextOrientation = TextOrientation.Rotated270;
+                //Y轴网格线条
+                PredictionChart.ChartAreas[0].AxisY.MajorGrid.Enabled = true;
+                PredictionChart.ChartAreas[0].AxisY.MajorGrid.LineColor = ColorTranslator.FromHtml("#2c4c6d");
+                PredictionChart.ChartAreas[0].AxisY2.LineColor = Color.Transparent;
+                PredictionChart.ChartAreas[0].BackGradientStyle = GradientStyle.TopBottom;
+                Legend legend = new Legend("legend");
+                legend.Title = "legendTitle";
 
-            PredictionChart.Series[0].XValueType = ChartValueType.String;  //设置X轴上的值类型
-            PredictionChart.Series[0].Label = "#VAL";                //设置显示X Y的值    
-            PredictionChart.Series[0].LabelForeColor = Color.Black;
-            PredictionChart.Series[0].ToolTip = "#VALX:#VAL";     //鼠标移动到对应点显示数值
-            PredictionChart.Series[0].ChartType = SeriesChartType.Column;    //图类型
-
-
-            PredictionChart.Series[0].Color = Color.Lime;
-            PredictionChart.Series[0].LegendText = legend.Name;
-            PredictionChart.Series[0].IsValueShownAsLabel = true;
-            PredictionChart.Series[0].LabelForeColor = Color.Black;
-            PredictionChart.Series[0].CustomProperties = "DrawingStyle = Cylinder";
-            PredictionChart.Legends.Add(legend);
-            PredictionChart.Legends[0].Position.Auto = false;
+                PredictionChart.Series[0].XValueType = ChartValueType.String;  //设置X轴上的值类型
+                PredictionChart.Series[0].Label = "#VAL";                //设置显示X Y的值    
+                PredictionChart.Series[0].LabelForeColor = Color.Black;
+                PredictionChart.Series[0].ToolTip = "#VALX:#VAL";     //鼠标移动到对应点显示数值
+                PredictionChart.Series[0].ChartType = SeriesChartType.Column;    //图类型
 
 
-            PredictionChart.Series[0].Points[0].Color = Color.Black;
-            PredictionChart.Series[0].Palette = ChartColorPalette.SeaGreen;
-            PredictionChart.Visible = true;
+                PredictionChart.Series[0].Color = Color.Lime;
+                PredictionChart.Series[0].LegendText = legend.Name;
+                PredictionChart.Series[0].IsValueShownAsLabel = true;
+                PredictionChart.Series[0].LabelForeColor = Color.Black;
+                PredictionChart.Series[0].CustomProperties = "DrawingStyle = Cylinder";
+                PredictionChart.Legends.Add(legend);
+                PredictionChart.Legends[0].Position.Auto = false;
+
+
+                PredictionChart.Series[0].Points[0].Color = Color.Black;
+                PredictionChart.Series[0].Palette = ChartColorPalette.SeaGreen;
+                PredictionChart.Visible = true;
+            }
         }
 
 
@@ -143,8 +156,8 @@ namespace GuapiGraph
             this.infomation_state.Text = "spider is working...";
             List<JobInfo> list = await modal.readDataFromNet();
             get_companylist();
-            this.infomation_state.Text = "infomation catched!" + companyList.Count + "  companie' information has been catched!";
             init();
+            this.infomation_state.Text = "infomation catched!" + companyList.Count + "  companie' information has been catched!";
         }
 
 
@@ -171,8 +184,8 @@ namespace GuapiGraph
 
         private void getPredictionChart(int index)
         {
-            List<int> yList = new List<int>(dict[index].Count);
-            List<string> xList = new List<string>(dict[index]);
+            List<int> yList = count[index];
+            List<string> xList = months[index];
             PredictionChart.Series[0].Points.DataBindXY(xList, yList);
         }
 
