@@ -42,7 +42,7 @@ namespace GuapiGraph
         /// 获取modal实例
         /// </summary>
         /// <returns></returns>
-        public ModalImpl GetInstance()
+        public static ModalImpl GetInstance()
         {
             if (modal == null)
             {
