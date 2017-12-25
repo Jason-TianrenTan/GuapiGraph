@@ -13,23 +13,9 @@ namespace GuapiGraph
 {
     public partial class Form1 : Form
     {
-        string[] positions = "运维 前端 安全 分布式".Split(new Char[] { ' ' });
-        string[][] months =
-        {
-                "2016-12,2017-10,2017-11,2017-12".Split(new Char[] {',' }),
-                "2016-09,2017-08,2017-11,2017-12".Split(new Char[] {',' }),
-                "2016-12,2017-10,2017-11,2017-12".Split(new Char[] {',' }),
-                "2016-12,2017-10,2017-11,2017-12".Split(new Char[] {',' })
-            };
-        int[][] counts =
-        {
-                new int[]{ 30,45,53,23},
-                new int[]{ 23,45,65,44},
-                new int[]{ 34,55,30,89},
-                new int[]{ 56,32,33,54}
-            };
+        Dictionary<int, List<string>> dict = new Dictionary<int, List<string>>();
         private DataModel modal = null; // ModalImpl.GetInstance();
-        
+
         public Form1()
         {
             InitializeComponent();
@@ -46,8 +32,19 @@ namespace GuapiGraph
 
         private void initComboBox()
         {
-            foreach (string str in positions)
-                positionComboBox.Items.Add(str);
+            Dictionary<string, List<string>> dict_ = modal.getPosition_And_Months();
+            int index = 0;
+            foreach (var entry in dict_)
+            {
+                positionComboBox.Items.Add(entry.Key);
+                List<string> tempList = new List<string>();
+                foreach (string str in entry.Value)
+                    tempList.Add(str);
+                dict.Add(index, tempList);
+                
+                index++;
+            }
+
         }
 
 
@@ -118,7 +115,7 @@ namespace GuapiGraph
             PredictionChart.Series[0].Palette = ChartColorPalette.SeaGreen;
             PredictionChart.Visible = true;
         }
-      
+
 
         /// <summary>
         /// 技能树页面，list双击事件
@@ -134,29 +131,28 @@ namespace GuapiGraph
         /// </summary>
         private void company_job_list_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-           
+
             get_job_chart(company_job_list.SelectedItem.ToString());
         }
 
 
-        private void menu_func_catchInfo_Click(object sender, EventArgs e)
+        private async void menu_func_catchInfo_Click(object sender, EventArgs e)
         {
             string tips = "start catching information\n" + "target:https://www.nowcoder.com/recommend\n";
             MessageBox.Show(tips);
             //获取网络数据
             this.infomation_state.Text = "spider is working...";
-            Task<List<JobInfo>> task = modal.readDataFromNet();
-
-            this.infomation_state.Text = "infomation catched!";
+            List<JobInfo> list = await modal.readDataFromNet();
+            get_companylist();
+            this.infomation_state.Text = "infomation catched!" + companyList.Count + "  companie' information has been catched!";
         }
 
-
-        protected List<string> companyList = new List<string>();
 
 
         /// <summary>
         /// 得到公司列表展示在list
         /// </summary>
+        protected List<string> companyList = new List<string>();
         private void get_companylist()
         {
             if (modal == null)
@@ -173,12 +169,10 @@ namespace GuapiGraph
             }
         }
 
-
-
         private void getPredictionChart(int index)
         {
-            List<int> yList = new List<int>(counts[index]);
-            List<string> xList = new List<string>(months[index]);
+            List<int> yList = new List<int>(dict[index].Count);
+            List<string> xList = new List<string>(dict[index]);
             PredictionChart.Series[0].Points.DataBindXY(xList, yList);
         }
 
@@ -275,10 +269,6 @@ namespace GuapiGraph
 
         }
 
-        private void positionComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
 
         /// <summary>
         /// 得到技能树图
@@ -287,16 +277,16 @@ namespace GuapiGraph
         {
             if (modal == null)
                 return;
-           
+
             Dictionary<string, int> skill_numbers = modal.getSkillCountInCompany(companyName);
             List<string> xValues = new List<string>();
             List<int> yValues = new List<int>();
-            foreach(var item in skill_numbers)
+            foreach (var item in skill_numbers)
             {
                 xValues.Add(item.Key);
                 yValues.Add(item.Value);
             }
-           
+
             radar_chart.Series[0].Points.DataBindXY(xValues, yValues);
             // //标题
             radar_chart.Titles.Add("skills-needed graph in " + companyName + " company");
@@ -378,10 +368,6 @@ namespace GuapiGraph
             radar_chart.Visible = true;
         }
 
-        private void menu_item_show_compannylist_Click(object sender, EventArgs e)
-        {
-            get_companylist();
-        }
 
 
 
