@@ -55,10 +55,10 @@ namespace GuapiGraph
         /// 联网获取职位信息
         /// </summary>
         /// <returns>新版Bean集合</returns>
-        public List<JobInfo> readDataFromNet()
+        public async Task<List<JobInfo>> readDataFromNet()
         {
             WebSpider spider = new WebSpider();
-            spider.Start();
+            await spider.Start();
             Console.WriteLine("read Data From Net complete");
 
             //异步写入数据库
@@ -212,6 +212,16 @@ namespace GuapiGraph
                 s += item + ",";
             }
             return s.TrimEnd(',');
+        }
+
+        public List<string> getSkillOfPosition(string position)
+        {
+            return null;
+        }
+
+        public int getPositionCountOfMonth(string position, string month)
+        {
+            return 0;
         }
     }
 }
