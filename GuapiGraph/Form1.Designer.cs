@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menubar = new System.Windows.Forms.MenuStrip();
             this.menuitem_start = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_func_catchInfo = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,9 +56,9 @@
             this.state_label = new System.Windows.Forms.Label();
             this.infomation_state = new System.Windows.Forms.Label();
             this.linearRegressionPage = new System.Windows.Forms.TabPage();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.PredictionChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.predictionLabel = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.positionComboBox = new System.Windows.Forms.ComboBox();
             this.SelectPositionLabel = new System.Windows.Forms.Label();
             this.PredictionsLabel = new System.Windows.Forms.Label();
             this.Split1 = new System.Windows.Forms.Label();
@@ -73,7 +73,7 @@
             this.skill_tree_page.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radar_chart)).BeginInit();
             this.linearRegressionPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PredictionChart)).BeginInit();
             this.SuspendLayout();
             // 
             // menubar
@@ -172,16 +172,16 @@
             // 
             // job_chart
             // 
-            chartArea5.Name = "ChartArea1";
-            this.job_chart.ChartAreas.Add(chartArea5);
-            legend5.Name = "Legend1";
-            this.job_chart.Legends.Add(legend5);
+            chartArea1.Name = "ChartArea1";
+            this.job_chart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.job_chart.Legends.Add(legend1);
             this.job_chart.Location = new System.Drawing.Point(452, 124);
             this.job_chart.Name = "job_chart";
-            series5.ChartArea = "ChartArea1";
-            series5.Legend = "Legend1";
-            series5.Name = "Series1";
-            this.job_chart.Series.Add(series5);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.job_chart.Series.Add(series1);
             this.job_chart.Size = new System.Drawing.Size(376, 463);
             this.job_chart.TabIndex = 3;
             this.job_chart.Text = "job_cahrt";
@@ -203,16 +203,16 @@
             // 
             // radar_chart
             // 
-            chartArea6.Name = "ChartArea1";
-            this.radar_chart.ChartAreas.Add(chartArea6);
-            legend6.Name = "Legend1";
-            this.radar_chart.Legends.Add(legend6);
+            chartArea2.Name = "ChartArea1";
+            this.radar_chart.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.radar_chart.Legends.Add(legend2);
             this.radar_chart.Location = new System.Drawing.Point(445, 118);
             this.radar_chart.Name = "radar_chart";
-            series6.ChartArea = "ChartArea1";
-            series6.Legend = "Legend1";
-            series6.Name = "Series1";
-            this.radar_chart.Series.Add(series6);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.radar_chart.Series.Add(series2);
             this.radar_chart.Size = new System.Drawing.Size(385, 463);
             this.radar_chart.TabIndex = 7;
             this.radar_chart.Text = "radar_chart";
@@ -272,9 +272,9 @@
             this.linearRegressionPage.Controls.Add(this.Split1);
             this.linearRegressionPage.Controls.Add(this.PredictionsLabel);
             this.linearRegressionPage.Controls.Add(this.SelectPositionLabel);
-            this.linearRegressionPage.Controls.Add(this.comboBox1);
+            this.linearRegressionPage.Controls.Add(this.positionComboBox);
             this.linearRegressionPage.Controls.Add(this.predictionLabel);
-            this.linearRegressionPage.Controls.Add(this.chart1);
+            this.linearRegressionPage.Controls.Add(this.PredictionChart);
             this.linearRegressionPage.Location = new System.Drawing.Point(4, 30);
             this.linearRegressionPage.Name = "linearRegressionPage";
             this.linearRegressionPage.Padding = new System.Windows.Forms.Padding(3);
@@ -283,21 +283,21 @@
             this.linearRegressionPage.Text = "Predictions";
             this.linearRegressionPage.UseVisualStyleBackColor = true;
             // 
-            // chart1
+            // PredictionChart
             // 
-            chartArea4.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.chart1.Legends.Add(legend4);
-            this.chart1.Location = new System.Drawing.Point(3, 45);
-            this.chart1.Name = "chart1";
-            series4.ChartArea = "ChartArea1";
-            series4.Legend = "Legend1";
-            series4.Name = "Series1";
-            this.chart1.Series.Add(series4);
-            this.chart1.Size = new System.Drawing.Size(845, 342);
-            this.chart1.TabIndex = 0;
-            this.chart1.Text = "chart1";
+            chartArea3.Name = "ChartArea1";
+            this.PredictionChart.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.PredictionChart.Legends.Add(legend3);
+            this.PredictionChart.Location = new System.Drawing.Point(3, 45);
+            this.PredictionChart.Name = "PredictionChart";
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.PredictionChart.Series.Add(series3);
+            this.PredictionChart.Size = new System.Drawing.Size(845, 342);
+            this.PredictionChart.TabIndex = 0;
+            this.PredictionChart.Text = "chart1";
             // 
             // predictionLabel
             // 
@@ -309,14 +309,14 @@
             this.predictionLabel.TabIndex = 1;
             this.predictionLabel.Text = "Future Predictions(2018.1-2018.3)";
             // 
-            // comboBox1
+            // positionComboBox
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(161, 393);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(144, 29);
-            this.comboBox1.TabIndex = 2;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.positionComboBox.FormattingEnabled = true;
+            this.positionComboBox.Location = new System.Drawing.Point(161, 393);
+            this.positionComboBox.Name = "positionComboBox";
+            this.positionComboBox.Size = new System.Drawing.Size(144, 29);
+            this.positionComboBox.TabIndex = 2;
+            this.positionComboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // SelectPositionLabel
             // 
@@ -409,7 +409,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.radar_chart)).EndInit();
             this.linearRegressionPage.ResumeLayout(false);
             this.linearRegressionPage.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PredictionChart)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -437,9 +437,9 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart radar_chart;
         private System.Windows.Forms.TabPage linearRegressionPage;
         private System.Windows.Forms.Label SelectPositionLabel;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox positionComboBox;
         private System.Windows.Forms.Label predictionLabel;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart PredictionChart;
         private System.Windows.Forms.Label PredictionsLabel;
         private System.Windows.Forms.Label LRText;
         private System.Windows.Forms.Label label1;

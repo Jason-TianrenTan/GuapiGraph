@@ -13,14 +13,111 @@ namespace GuapiGraph
 {
     public partial class Form1 : Form
     {
-
+        string[] positions = "运维 前端 安全 分布式".Split(new Char[] { ' ' });
+        string[][] months =
+        {
+                "2016-12,2017-10,2017-11,2017-12".Split(new Char[] {',' }),
+                "2016-09,2017-08,2017-11,2017-12".Split(new Char[] {',' }),
+                "2016-12,2017-10,2017-11,2017-12".Split(new Char[] {',' }),
+                "2016-12,2017-10,2017-11,2017-12".Split(new Char[] {',' })
+            };
+        int[][] counts =
+        {
+                new int[]{ 30,45,53,23},
+                new int[]{ 23,45,65,44},
+                new int[]{ 34,55,30,89},
+                new int[]{ 56,32,33,54}
+            };
         private DataModel modal = null; // ModalImpl.GetInstance();
-
+        
         public Form1()
         {
             InitializeComponent();
+            init();
         }
 
+
+        private void init()
+        {
+            initComboBox();
+            initPredictonChart();
+        }
+
+
+        private void initComboBox()
+        {
+            foreach (string str in positions)
+                positionComboBox.Items.Add(str);
+        }
+
+
+        private void initPredictonChart()
+        {
+            getPredictionChart(0);
+            //标题
+            PredictionChart.Titles.Add("统计分析表");
+            PredictionChart.Titles[0].ForeColor = Color.Black;
+            PredictionChart.Titles[0].Font = new Font("Calibri", 16f, FontStyle.Regular);
+            PredictionChart.Titles[0].Alignment = ContentAlignment.TopCenter;
+
+            //控件背景
+            PredictionChart.BackColor = Color.Transparent;
+            //图表区背景
+            PredictionChart.ChartAreas[0].BackColor = Color.Transparent;
+            PredictionChart.ChartAreas[0].BorderColor = Color.Transparent;
+            //X轴标签间距
+            PredictionChart.ChartAreas[0].AxisX.Interval = 1;
+            PredictionChart.ChartAreas[0].AxisX.LabelStyle.IsStaggered = true;
+            PredictionChart.ChartAreas[0].AxisX.LabelStyle.Angle = -45;
+            PredictionChart.ChartAreas[0].AxisX.TitleFont = new Font("Calibri", 14f, FontStyle.Regular);
+            PredictionChart.ChartAreas[0].AxisX.TitleForeColor = Color.Black;
+
+            //X坐标轴颜色
+            PredictionChart.ChartAreas[0].AxisX.LineColor = ColorTranslator.FromHtml("#38587a"); ;
+            PredictionChart.ChartAreas[0].AxisX.LabelStyle.ForeColor = Color.Black;
+            PredictionChart.ChartAreas[0].AxisX.LabelStyle.Font = new Font("Calibri", 10f, FontStyle.Regular);
+
+            //X轴网络线条
+            PredictionChart.ChartAreas[0].AxisX.MajorGrid.Enabled = true;
+            PredictionChart.ChartAreas[0].AxisX.MajorGrid.LineColor = ColorTranslator.FromHtml("#2c4c6d");
+
+            //Y坐标轴颜色
+            PredictionChart.ChartAreas[0].AxisY.LineColor = ColorTranslator.FromHtml("#38587a");
+            PredictionChart.ChartAreas[0].AxisY.LabelStyle.ForeColor = Color.Black;
+            PredictionChart.ChartAreas[0].AxisY.LabelStyle.Font = new Font("Calibri", 10f, FontStyle.Regular);
+            //Y坐标轴标题
+            PredictionChart.ChartAreas[0].AxisY.Title = "职位数目";
+            PredictionChart.ChartAreas[0].AxisY.TitleFont = new Font("Calibri", 10f, FontStyle.Regular);
+            PredictionChart.ChartAreas[0].AxisY.TitleForeColor = Color.Black;
+            PredictionChart.ChartAreas[0].AxisY.TextOrientation = TextOrientation.Rotated270;
+            //Y轴网格线条
+            PredictionChart.ChartAreas[0].AxisY.MajorGrid.Enabled = true;
+            PredictionChart.ChartAreas[0].AxisY.MajorGrid.LineColor = ColorTranslator.FromHtml("#2c4c6d");
+            PredictionChart.ChartAreas[0].AxisY2.LineColor = Color.Transparent;
+            PredictionChart.ChartAreas[0].BackGradientStyle = GradientStyle.TopBottom;
+            Legend legend = new Legend("legend");
+            legend.Title = "legendTitle";
+
+            PredictionChart.Series[0].XValueType = ChartValueType.String;  //设置X轴上的值类型
+            PredictionChart.Series[0].Label = "#VAL";                //设置显示X Y的值    
+            PredictionChart.Series[0].LabelForeColor = Color.Black;
+            PredictionChart.Series[0].ToolTip = "#VALX:#VAL";     //鼠标移动到对应点显示数值
+            PredictionChart.Series[0].ChartType = SeriesChartType.Column;    //图类型
+
+
+            PredictionChart.Series[0].Color = Color.Lime;
+            PredictionChart.Series[0].LegendText = legend.Name;
+            PredictionChart.Series[0].IsValueShownAsLabel = true;
+            PredictionChart.Series[0].LabelForeColor = Color.Black;
+            PredictionChart.Series[0].CustomProperties = "DrawingStyle = Cylinder";
+            PredictionChart.Legends.Add(legend);
+            PredictionChart.Legends[0].Position.Auto = false;
+
+
+            PredictionChart.Series[0].Points[0].Color = Color.Black;
+            PredictionChart.Series[0].Palette = ChartColorPalette.SeaGreen;
+            PredictionChart.Visible = true;
+        }
 
 
         //技能树构造链表
@@ -31,13 +128,14 @@ namespace GuapiGraph
             string company = company_skill_list.SelectedItem.ToString();
             skill_tree_items = modal.getSkillCountInCompany(company);
         }
+
+
         /// <summary>
         /// 技能树页面，list双击事件
         /// </summary>
         private void skill_job_list_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             make_skill_Items();
-
         }
 
         private void menu_func_catchInfo_Click(object sender, EventArgs e)
@@ -51,7 +149,10 @@ namespace GuapiGraph
             this.infomation_state.Text = "infomation catched!";
         }
 
+
         protected List<string> companyList = new List<string>();
+
+
         /// <summary>
         /// 得到公司列表展示在list
         /// </summary>
@@ -68,6 +169,16 @@ namespace GuapiGraph
                 company_skill_list.Items.Add(name);
             }
         }
+
+
+
+        private void getPredictionChart(int index)
+        {
+            List<int> yList = new List<int>(counts[index]);
+            List<string> xList = new List<string>(months[index]);
+            PredictionChart.Series[0].Points.DataBindXY(xList, yList);
+        }
+
 
         /// <summary>
         /// 得到柱状图
@@ -271,7 +382,7 @@ namespace GuapiGraph
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            getPredictionChart(positionComboBox.SelectedIndex);
         }
     }
 }
