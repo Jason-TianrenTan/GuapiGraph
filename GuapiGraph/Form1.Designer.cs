@@ -51,8 +51,8 @@
             this.companyList_skill_label = new System.Windows.Forms.Label();
             this.linearRegressionPage = new System.Windows.Forms.TabPage();
             this.LRText = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.predictionLabel2 = new System.Windows.Forms.Label();
+            this.predictionYearLabel3 = new System.Windows.Forms.Label();
+            this.predictionYearLabel2 = new System.Windows.Forms.Label();
             this.predictionYearLabel1 = new System.Windows.Forms.Label();
             this.Split1 = new System.Windows.Forms.Label();
             this.PredictionsLabel = new System.Windows.Forms.Label();
@@ -79,7 +79,7 @@
             this.menuitem_start});
             this.menubar.Location = new System.Drawing.Point(0, 0);
             this.menubar.Name = "menubar";
-            this.menubar.Size = new System.Drawing.Size(1064, 28);
+            this.menubar.Size = new System.Drawing.Size(1064, 25);
             this.menubar.TabIndex = 0;
             this.menubar.Text = "menu";
             // 
@@ -88,13 +88,13 @@
             this.menuitem_start.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menu_func_catchInfo});
             this.menuitem_start.Name = "menuitem_start";
-            this.menuitem_start.Size = new System.Drawing.Size(54, 24);
+            this.menuitem_start.Size = new System.Drawing.Size(46, 21);
             this.menuitem_start.Text = "start";
             // 
             // menu_func_catchInfo
             // 
             this.menu_func_catchInfo.Name = "menu_func_catchInfo";
-            this.menu_func_catchInfo.Size = new System.Drawing.Size(212, 26);
+            this.menu_func_catchInfo.Size = new System.Drawing.Size(177, 22);
             this.menu_func_catchInfo.Text = "catch information";
             this.menu_func_catchInfo.Click += new System.EventHandler(this.menu_func_catchInfo_Click);
             // 
@@ -115,10 +115,10 @@
             this.job_chart_page.Controls.Add(this.job_chart_combo);
             this.job_chart_page.Controls.Add(this.companyList_label);
             this.job_chart_page.Controls.Add(this.job_chart);
-            this.job_chart_page.Location = new System.Drawing.Point(4, 36);
+            this.job_chart_page.Location = new System.Drawing.Point(4, 30);
             this.job_chart_page.Name = "job_chart_page";
             this.job_chart_page.Padding = new System.Windows.Forms.Padding(3);
-            this.job_chart_page.Size = new System.Drawing.Size(1031, 699);
+            this.job_chart_page.Size = new System.Drawing.Size(1031, 705);
             this.job_chart_page.TabIndex = 0;
             this.job_chart_page.Text = "Overview";
             // 
@@ -127,7 +127,7 @@
             this.job_chart_combo.FormattingEnabled = true;
             this.job_chart_combo.Location = new System.Drawing.Point(147, 19);
             this.job_chart_combo.Name = "job_chart_combo";
-            this.job_chart_combo.Size = new System.Drawing.Size(405, 35);
+            this.job_chart_combo.Size = new System.Drawing.Size(405, 29);
             this.job_chart_combo.TabIndex = 2;
             this.job_chart_combo.Click += new System.EventHandler(this.job_chart_combo_Click);
             // 
@@ -136,7 +136,7 @@
             this.companyList_label.AutoSize = true;
             this.companyList_label.Location = new System.Drawing.Point(8, 22);
             this.companyList_label.Name = "companyList_label";
-            this.companyList_label.Size = new System.Drawing.Size(133, 27);
+            this.companyList_label.Size = new System.Drawing.Size(106, 21);
             this.companyList_label.TabIndex = 5;
             this.companyList_label.Text = "company list";
             // 
@@ -163,10 +163,10 @@
             this.skill_tree_page.Controls.Add(this.skill_tree_combo);
             this.skill_tree_page.Controls.Add(this.radar_chart);
             this.skill_tree_page.Controls.Add(this.companyList_skill_label);
-            this.skill_tree_page.Location = new System.Drawing.Point(4, 36);
+            this.skill_tree_page.Location = new System.Drawing.Point(4, 30);
             this.skill_tree_page.Name = "skill_tree_page";
             this.skill_tree_page.Padding = new System.Windows.Forms.Padding(3);
-            this.skill_tree_page.Size = new System.Drawing.Size(1031, 699);
+            this.skill_tree_page.Size = new System.Drawing.Size(1031, 705);
             this.skill_tree_page.TabIndex = 1;
             this.skill_tree_page.Text = "Skill Trees";
             // 
@@ -175,7 +175,7 @@
             this.skill_tree_combo.FormattingEnabled = true;
             this.skill_tree_combo.Location = new System.Drawing.Point(147, 19);
             this.skill_tree_combo.Name = "skill_tree_combo";
-            this.skill_tree_combo.Size = new System.Drawing.Size(405, 35);
+            this.skill_tree_combo.Size = new System.Drawing.Size(405, 29);
             this.skill_tree_combo.TabIndex = 2;
             this.skill_tree_combo.Click += new System.EventHandler(this.skill_tree_combo_Click);
             // 
@@ -201,15 +201,15 @@
             this.companyList_skill_label.AutoSize = true;
             this.companyList_skill_label.Location = new System.Drawing.Point(8, 22);
             this.companyList_skill_label.Name = "companyList_skill_label";
-            this.companyList_skill_label.Size = new System.Drawing.Size(133, 27);
+            this.companyList_skill_label.Size = new System.Drawing.Size(106, 21);
             this.companyList_skill_label.TabIndex = 6;
             this.companyList_skill_label.Text = "company list";
             // 
             // linearRegressionPage
             // 
             this.linearRegressionPage.Controls.Add(this.LRText);
-            this.linearRegressionPage.Controls.Add(this.label1);
-            this.linearRegressionPage.Controls.Add(this.predictionLabel2);
+            this.linearRegressionPage.Controls.Add(this.predictionYearLabel3);
+            this.linearRegressionPage.Controls.Add(this.predictionYearLabel2);
             this.linearRegressionPage.Controls.Add(this.predictionYearLabel1);
             this.linearRegressionPage.Controls.Add(this.Split1);
             this.linearRegressionPage.Controls.Add(this.PredictionsLabel);
@@ -217,10 +217,10 @@
             this.linearRegressionPage.Controls.Add(this.positionComboBox);
             this.linearRegressionPage.Controls.Add(this.predictionLabel);
             this.linearRegressionPage.Controls.Add(this.PredictionChart);
-            this.linearRegressionPage.Location = new System.Drawing.Point(4, 36);
+            this.linearRegressionPage.Location = new System.Drawing.Point(4, 30);
             this.linearRegressionPage.Name = "linearRegressionPage";
             this.linearRegressionPage.Padding = new System.Windows.Forms.Padding(3);
-            this.linearRegressionPage.Size = new System.Drawing.Size(1031, 699);
+            this.linearRegressionPage.Size = new System.Drawing.Size(1031, 705);
             this.linearRegressionPage.TabIndex = 2;
             this.linearRegressionPage.Text = "Predictions";
             this.linearRegressionPage.UseVisualStyleBackColor = true;
@@ -230,34 +230,34 @@
             this.LRText.AutoSize = true;
             this.LRText.Location = new System.Drawing.Point(422, 528);
             this.LRText.Name = "LRText";
-            this.LRText.Size = new System.Drawing.Size(269, 27);
+            this.LRText.Size = new System.Drawing.Size(215, 21);
             this.LRText.TabIndex = 9;
             this.LRText.Text = "Linear Regression Formula:";
             // 
-            // label1
+            // predictionYearLabel3
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 651);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(217, 27);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Prediction for 2018-2";
+            this.predictionYearLabel3.AutoSize = true;
+            this.predictionYearLabel3.Location = new System.Drawing.Point(17, 651);
+            this.predictionYearLabel3.Name = "predictionYearLabel3";
+            this.predictionYearLabel3.Size = new System.Drawing.Size(171, 21);
+            this.predictionYearLabel3.TabIndex = 8;
+            this.predictionYearLabel3.Text = "Prediction for 2018-3";
             // 
-            // predictionLabel2
+            // predictionYearLabel2
             // 
-            this.predictionLabel2.AutoSize = true;
-            this.predictionLabel2.Location = new System.Drawing.Point(17, 607);
-            this.predictionLabel2.Name = "predictionLabel2";
-            this.predictionLabel2.Size = new System.Drawing.Size(217, 27);
-            this.predictionLabel2.TabIndex = 7;
-            this.predictionLabel2.Text = "Prediction for 2018-2";
+            this.predictionYearLabel2.AutoSize = true;
+            this.predictionYearLabel2.Location = new System.Drawing.Point(17, 607);
+            this.predictionYearLabel2.Name = "predictionYearLabel2";
+            this.predictionYearLabel2.Size = new System.Drawing.Size(171, 21);
+            this.predictionYearLabel2.TabIndex = 7;
+            this.predictionYearLabel2.Text = "Prediction for 2018-2";
             // 
             // predictionYearLabel1
             // 
             this.predictionYearLabel1.AutoSize = true;
             this.predictionYearLabel1.Location = new System.Drawing.Point(17, 569);
             this.predictionYearLabel1.Name = "predictionYearLabel1";
-            this.predictionYearLabel1.Size = new System.Drawing.Size(217, 27);
+            this.predictionYearLabel1.Size = new System.Drawing.Size(171, 21);
             this.predictionYearLabel1.TabIndex = 6;
             this.predictionYearLabel1.Text = "Prediction for 2018-1";
             // 
@@ -276,7 +276,7 @@
             this.PredictionsLabel.Font = new System.Drawing.Font("Calibri", 15F);
             this.PredictionsLabel.Location = new System.Drawing.Point(16, 528);
             this.PredictionsLabel.Name = "PredictionsLabel";
-            this.PredictionsLabel.Size = new System.Drawing.Size(128, 31);
+            this.PredictionsLabel.Size = new System.Drawing.Size(102, 24);
             this.PredictionsLabel.TabIndex = 4;
             this.PredictionsLabel.Text = "Predictions";
             // 
@@ -286,7 +286,7 @@
             this.SelectPositionLabel.Font = new System.Drawing.Font("Calibri", 16F);
             this.SelectPositionLabel.Location = new System.Drawing.Point(16, 483);
             this.SelectPositionLabel.Name = "SelectPositionLabel";
-            this.SelectPositionLabel.Size = new System.Drawing.Size(172, 33);
+            this.SelectPositionLabel.Size = new System.Drawing.Size(143, 27);
             this.SelectPositionLabel.TabIndex = 3;
             this.SelectPositionLabel.Text = "Select Position";
             // 
@@ -295,7 +295,7 @@
             this.positionComboBox.FormattingEnabled = true;
             this.positionComboBox.Location = new System.Drawing.Point(194, 483);
             this.positionComboBox.Name = "positionComboBox";
-            this.positionComboBox.Size = new System.Drawing.Size(227, 35);
+            this.positionComboBox.Size = new System.Drawing.Size(227, 29);
             this.positionComboBox.TabIndex = 2;
             this.positionComboBox.SelectedIndexChanged += new System.EventHandler(this.positionComboBox_SelectedIndexChanged_1);
             // 
@@ -305,7 +305,7 @@
             this.predictionLabel.Font = new System.Drawing.Font("Calibri", 16F);
             this.predictionLabel.Location = new System.Drawing.Point(6, 15);
             this.predictionLabel.Name = "predictionLabel";
-            this.predictionLabel.Size = new System.Drawing.Size(391, 33);
+            this.predictionLabel.Size = new System.Drawing.Size(321, 27);
             this.predictionLabel.TabIndex = 1;
             this.predictionLabel.Text = "Future Predictions(2018.1-2018.3)";
             // 
@@ -330,7 +330,7 @@
             this.state_label.AutoSize = true;
             this.state_label.Location = new System.Drawing.Point(-1, 781);
             this.state_label.Name = "state_label";
-            this.state_label.Size = new System.Drawing.Size(172, 27);
+            this.state_label.Size = new System.Drawing.Size(140, 21);
             this.state_label.TabIndex = 3;
             this.state_label.Text = "infomation state:";
             // 
@@ -339,13 +339,13 @@
             this.infomation_state.AutoSize = true;
             this.infomation_state.Location = new System.Drawing.Point(177, 781);
             this.infomation_state.Name = "infomation_state";
-            this.infomation_state.Size = new System.Drawing.Size(46, 27);
+            this.infomation_state.Size = new System.Drawing.Size(38, 21);
             this.infomation_state.TabIndex = 4;
             this.infomation_state.Text = "null";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1064, 817);
             this.Controls.Add(this.infomation_state);
@@ -396,8 +396,8 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart PredictionChart;
         private System.Windows.Forms.Label PredictionsLabel;
         private System.Windows.Forms.Label LRText;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label predictionLabel2;
+        private System.Windows.Forms.Label predictionYearLabel3;
+        private System.Windows.Forms.Label predictionYearLabel2;
         private System.Windows.Forms.Label predictionYearLabel1;
         private System.Windows.Forms.Label Split1;
         private System.Windows.Forms.ComboBox job_chart_combo;

@@ -86,6 +86,7 @@ namespace GuapiGraph
         /// <summary>
         /// 获取职位列表(前端/运维/安全)
         /// 以及对应的哪些月份有岗位
+        /// 这里月份顺序按照字典序排序
         /// </summary>
         /// <returns></returns>
         Dictionary<string, List<string>> getPosition_And_Months();
