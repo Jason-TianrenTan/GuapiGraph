@@ -13,8 +13,7 @@ namespace GuapiGraph
 {
     public partial class Form1 : Form
     {
-        private List<int>[] count;//每个岗位的每月职位个数
-        private List<string>[] months;//有效月
+        List<PositionInfo> positionInfos;
         private DataModel modal = ModalImpl.GetInstance();
         bool inited = false;
         
@@ -33,26 +32,24 @@ namespace GuapiGraph
 
         private void initComboBox()
         {
-            Dictionary<string, List<string>> dict_ = modal.getPosition_And_Months();
-            count = new List<int>[dict_.Count];
-            months = new List<string>[dict_.Count];
-            for (int i=0;i<dict_.Count;i++)
+            Dictionary<string, List<string>> dict = modal.getPosition_And_Months();
+            positionInfos = new List<PositionInfo>();
+            foreach (var entry in dict)
             {
-                count[i] = new List<int>();
-                months[i] = new List<string>();
+                string positionName = entry.Key;
+                List<string> months = entry.Value;
+                List<MonthData> monthDatas = new List<MonthData>();
+                foreach (string month in months)
+                {
+                    MonthData monthData = new MonthData();
+                    monthData.monthName = month;
+                    monthData.positionCount = modal.getPositionCountOfMonth(positionName, month);
+                    monthDatas.Add(monthData);
+                }
+                PositionInfo positionInfo = new PositionInfo(positionName, monthDatas);
+                positionInfos.Add(positionInfo);
+                positionComboBox.Items.Add(positionName);
             }
-
-            int index = 0;
-            foreach (var entry in dict_)
-            {
-                positionComboBox.Items.Add(entry.Key);
-                count[index].Add(entry.Value.Count);
-                foreach (string str in entry.Value)
-                    months[index].Add(str);
-
-                index++;
-            }
-
         }
 
 
@@ -162,7 +159,7 @@ namespace GuapiGraph
             foreach (JobInfo jobInfo in jobInfoList)
                 beanList.Add(Parser.Parse(jobInfo));
             this.infomation_state.Text = "Writing into database...";
-            modal.writeData(beanList);
+            //modal.writeData(beanList);
             init();
             this.infomation_state.Text = "infomation catched!" + companyList.Count + "  companies\' information has been catched!";
         }
@@ -191,8 +188,9 @@ namespace GuapiGraph
 
         private void getPredictionChart(int index)
         {
-            List<int> yList = count[index];
-            List<string> xList = months[index];
+            PositionInfo posInfo = positionInfos[index];
+            List<int> yList = posInfo.getCounts();
+            List<string> xList = posInfo.getMonths();
             PredictionChart.Series[0].Points.DataBindXY(xList, yList);
         }
 
