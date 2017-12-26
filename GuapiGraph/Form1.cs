@@ -59,12 +59,14 @@ namespace GuapiGraph
             }
         }
 
-
         private void initPredictonChart()
         {
             if (!inited)
             {
                 inited = true;
+                List<string> tempX = new List<string>(new String[] { "1", "2", "3" });
+                List<int> tempY = new List<int>(new int[] { 1,2,3});
+                PredictionChart.Series[0].Points.DataBindXY(tempX, tempY);
                 getPredictionChart(0);
                 //标题
                 PredictionChart.Titles.Add("统计分析表");
@@ -211,11 +213,11 @@ namespace GuapiGraph
 
                 double k = 0, b = 0;
                 new LinearRegressonProcessor(xList, yList).Calculate(out k, out b);
-                
+
                 int baseMonth = new Month(xList[0]).convertToNumber();
-                int month1 = new Month("2018-1").convertToNumber() - baseMonth,
-                month2 = new Month("2018-2").convertToNumber() - baseMonth,
-                month3 = new Month("2018-3").convertToNumber() - baseMonth;
+                int month1 = new Month("2018-01").convertToNumber() - baseMonth,
+                month2 = new Month("2018-02").convertToNumber() - baseMonth,
+                month3 = new Month("2018-03").convertToNumber() - baseMonth;
                 int prediction1 = (int)(k * month1 + b),
                 prediction2 = (int)(k * month2 + b),
                 prediction3 = (int)(k * month3 + b);
