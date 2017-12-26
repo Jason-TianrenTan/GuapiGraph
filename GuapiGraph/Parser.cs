@@ -43,6 +43,9 @@ namespace GuapiGraph
                     break;
                 builder.Append(str);
             }
+            string position = builder.ToString();
+            if (position == null || position.Length == 0)
+                return name;
             return builder.ToString();
         }
 
