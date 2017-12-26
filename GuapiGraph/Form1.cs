@@ -23,7 +23,7 @@ namespace GuapiGraph
         }
 
 
-        private void init()
+        private async Task init()
         {
             initComboBox();
             initPredictonChart();
