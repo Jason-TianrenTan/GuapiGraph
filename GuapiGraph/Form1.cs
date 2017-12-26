@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -25,7 +26,7 @@ namespace GuapiGraph
         }
 
 
-        private async Task init()
+        private void init()
         {
             initComboBox();
             initPredictonChart();
@@ -50,7 +51,10 @@ namespace GuapiGraph
                 }
                 PositionInfo positionInfo = new PositionInfo(positionName, monthDatas);
                 positionInfos.Add(positionInfo);
-                positionComboBox.Items.Add(positionName);
+                positionComboBox.BeginInvoke((MethodInvoker)delegate (){
+                    positionComboBox.Items.Add(positionName);
+                });
+               
             }
         }
 
@@ -119,55 +123,49 @@ namespace GuapiGraph
                 PredictionChart.Series[0].CustomProperties = "DrawingStyle = Cylinder";
                 PredictionChart.Legends.Add(legend);
                 PredictionChart.Legends[0].Position.Auto = false;
-
-
-                PredictionChart.Series[0].Points[0].Color = Color.Black;
+                //PredictionChart.Series[0].Points[0].Color = Color.Black;
                 PredictionChart.Series[0].Palette = ChartColorPalette.SeaGreen;
                 PredictionChart.Visible = true;
             }
         }
 
 
-        /// <summary>
-        /// 技能树页面，list双击事件
-        /// </summary>
-        private void skill_job_list_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            get_skill_chart(company_skill_list.SelectedItem.ToString());
-        }
 
-
-        /// <summary>
-        /// 岗位界面，list双击事件
-        /// </summary>
-        private void company_job_list_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-
-            get_job_chart(company_job_list.SelectedItem.ToString());
-        }
-
-
-        private async void menu_func_catchInfo_Click(object sender, EventArgs e)
+        private void menu_func_catchInfo_Click(object sender, EventArgs e)
         {
             string tips = "start catching information\n" + "target:https://www.nowcoder.com/recommend\n";
             MessageBox.Show(tips);
             //获取网络数据
             this.infomation_state.Text = "spider is working...";
-            List<JobInfo> jobInfoList = await modal.readDataFromNet();
+            Thread spiderThread = new Thread(spiderStart);
+            spiderThread.Start();
 
-            this.infomation_state.Text = "Parsing...";
+        }
+
+        private async void spiderStart()
+        {
+            List<JobInfo> jobInfoList = await modal.readDataFromNet();
+            infomation_state.BeginInvoke((MethodInvoker)delegate ()
+            {
+                this.infomation_state.Text = "Parsing...";
+            });
             List<JobBean> beanList = new List<JobBean>();
             foreach (JobInfo jobInfo in jobInfoList)
                 beanList.Add(Parser.Parse(jobInfo));
-            this.infomation_state.Text = "Writing into database...";
+
+            infomation_state.BeginInvoke((MethodInvoker)delegate ()
+            {
+                this.infomation_state.Text = "Writing into database...";
+            });
             modal.writeData(beanList);
             init();
-
             get_companylist();
-
-            this.infomation_state.Text = "infomation catched!" + companyList.Count + "  companies\' information has been catched!";
+            infomation_state.BeginInvoke((MethodInvoker)delegate ()
+            {
+                this.infomation_state.Text = "infomation catched!" + companyList.Count + "  companies\' information has been catched!";
+            });
+            
         }
-
 
 
         /// <summary>
@@ -185,8 +183,16 @@ namespace GuapiGraph
                 return;
             foreach (string name in companyList)
             {
-                company_job_list.Items.Add(name);
-                company_skill_list.Items.Add(name);
+                job_chart_combo.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    job_chart_combo.Items.Add(name);
+                });
+
+                skill_tree_combo.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    skill_tree_combo.Items.Add(name);
+                });
+                
             }
         }
 
@@ -195,7 +201,10 @@ namespace GuapiGraph
             PositionInfo posInfo = positionInfos[index];
             List<int> yList = posInfo.getCounts();
             List<string> xList = posInfo.getMonths();
-            PredictionChart.Series[0].Points.DataBindXY(xList, yList);
+            PredictionChart.BeginInvoke((MethodInvoker)delegate
+            {
+                PredictionChart.Series[0].Points.DataBindXY(xList, yList);
+            });
         }
 
 
@@ -215,15 +224,8 @@ namespace GuapiGraph
                 x.Add(kin_number.Key);
                 y.Add(kin_number.Value);
             }
-            /*test
-            x.Add("saldhjkas");
-            x.Add("sakjdhu");
-            x.Add("ididiao");
-            y.Add(6);
-            y.Add(8);
-            y.Add(10);
-            */
 
+            
             job_chart.Series[0].Points.DataBindXY(x, y);
             if (!columnInit)
             {
@@ -277,7 +279,7 @@ namespace GuapiGraph
                 job_chart.Series[0].LabelForeColor = Color.Black;
                 job_chart.Series[0].ToolTip = "#VALX:#VAL";     //鼠标移动到对应点显示数值
                 job_chart.Series[0].ChartType = SeriesChartType.Column;    //图类型
-
+               
                 job_chart.Series[0].Color = Color.Lime;
                 job_chart.Series[0].LegendText = legend.Name;
                 job_chart.Series[0].IsValueShownAsLabel = true;
@@ -290,6 +292,7 @@ namespace GuapiGraph
                 job_chart.Series[0].Palette = ChartColorPalette.SeaGreen;
                 job_chart.Visible = true;
             }
+            job_chart.Titles[0].Text = ("numbers-jobs in" + companyName + "company chart");
         }
 
 
@@ -309,7 +312,7 @@ namespace GuapiGraph
                 xValues.Add(item.Key);
                 yValues.Add(item.Value);
             }
-
+           
             radar_chart.Series[0].Points.DataBindXY(xValues, yValues);
             if (!treeInit)
             {
@@ -374,13 +377,13 @@ namespace GuapiGraph
 
 
                 //设置X轴显示间隔为1,X轴数据比较多的时候比较有用  
-                radar_chart.ChartAreas[0].AxisX.LabelStyle.Interval = 1;
+               radar_chart.ChartAreas[0].AxisX.LabelStyle.Interval = 1.5;
                 //设置XY轴标题的名称所在位置位远  
                 radar_chart.ChartAreas[0].AxisX.TitleAlignment = StringAlignment.Near;
 
                 radar_chart.Series[0].Points[0].MarkerStyle = MarkerStyle.Circle;//设置折点的风格     
                 radar_chart.Series[0].Points[0].MarkerColor = Color.Red;//设置seires中折点的颜色   
-
+                radar_chart.Series[0].LegendText = "skill degree needed";
 
                 //cht4.ImageType = ChartImageType.Jpeg;
                 //反锯齿  
@@ -389,10 +392,11 @@ namespace GuapiGraph
                 radar_chart.Palette = ChartColorPalette.BrightPastel;
 
                 radar_chart.Series[0].ChartType = SeriesChartType.Radar;
-                radar_chart.Width = 560;
-                radar_chart.Height = 350;
+                radar_chart.Width = 1012;
+                radar_chart.Height =627;
                 radar_chart.Visible = true;
             }
+            radar_chart.Titles[0].Text = ("skills-needed graph in " + companyName + " company");
         }
 
 
@@ -401,6 +405,22 @@ namespace GuapiGraph
         private void positionComboBox_SelectedIndexChanged_1(object sender, EventArgs e)
         {
             getPredictionChart(positionComboBox.SelectedIndex);
+        }
+
+        private void job_chart_combo_Click(object sender, EventArgs e)
+        {
+            if (job_chart_combo.SelectedItem == null){
+                return;
+            }
+            get_job_chart(job_chart_combo.SelectedItem.ToString());
+        }
+
+        private void skill_tree_combo_Click(object sender, EventArgs e)
+        {
+            if (skill_tree_combo.SelectedItem ==null){
+                return;
+            }
+            get_skill_chart(skill_tree_combo.SelectedItem.ToString());
         }
     }
 }
