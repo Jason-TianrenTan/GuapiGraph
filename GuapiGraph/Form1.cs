@@ -51,22 +51,27 @@ namespace GuapiGraph
                 }
                 PositionInfo positionInfo = new PositionInfo(positionName, monthDatas);
                 positionInfos.Add(positionInfo);
-                positionComboBox.BeginInvoke((MethodInvoker)delegate (){
+                positionComboBox.BeginInvoke((MethodInvoker)delegate ()
+                {
                     positionComboBox.Items.Add(positionName);
                 });
-               
+
             }
         }
-
 
         private void initPredictonChart()
         {
             if (!inited)
             {
                 inited = true;
+                List<string> tempX = new List<string>(new String[] { "1", "2", "3" });
+                List<int> tempY = new List<int>(new int[] { 1, 2, 3 });
+                
                 getPredictionChart(0);
                 //标题
-                PredictionChart.BeginInvoke((MethodInvoker)delegate {
+                PredictionChart.BeginInvoke((MethodInvoker)delegate
+                {
+                    PredictionChart.Series[0].Points.DataBindXY(tempX, tempY);
                     PredictionChart.Titles.Add("统计分析表");
                     PredictionChart.Titles[0].ForeColor = Color.Black;
                     PredictionChart.Titles[0].Font = new Font("Calibri", 16f, FontStyle.Regular);
@@ -128,8 +133,8 @@ namespace GuapiGraph
                     PredictionChart.Series[0].Palette = ChartColorPalette.SeaGreen;
                     PredictionChart.Visible = true;
                 });
-               
-               
+
+
             }
         }
 
@@ -168,7 +173,7 @@ namespace GuapiGraph
             {
                 this.infomation_state.Text = "infomation catched!" + companyList.Count + "  companies\' information has been catched!";
             });
-            
+
         }
 
 
@@ -196,19 +201,41 @@ namespace GuapiGraph
                 {
                     skill_tree_combo.Items.Add(name);
                 });
-                
+
             }
         }
 
         private void getPredictionChart(int index)
         {
-            PositionInfo posInfo = positionInfos[index];
-            List<int> yList = posInfo.getCounts();
-            List<string> xList = posInfo.getMonths();
+            
             PredictionChart.BeginInvoke((MethodInvoker)delegate
             {
+                
+                PositionInfo posInfo = positionInfos[index];
+                List<int> yList = posInfo.getCounts();
+                List<string> xList = posInfo.getMonths();
+                xList.Sort();
                 PredictionChart.Series[0].Points.DataBindXY(xList, yList);
+
+                double k = 0, b = 0;
+                new LinearRegressonProcessor(xList, yList).Calculate(out k, out b);
+
+                int baseMonth = new Month(xList[0]).convertToNumber();
+                int month1 = new Month("2018-01").convertToNumber() - baseMonth,
+                month2 = new Month("2018-02").convertToNumber() - baseMonth,
+                month3 = new Month("2018-03").convertToNumber() - baseMonth;
+                int prediction1 = (int)(k * month1 + b),
+                prediction2 = (int)(k * month2 + b),
+                prediction3 = (int)(k * month3 + b);
+
+                predictionYearLabel1.Text = "Prediction for 2018-1: " + prediction1;
+                predictionYearLabel2.Text = "Prediction for 2018-2: " + prediction2;
+                predictionYearLabel3.Text = "Prediction for 2018-3: " + prediction3;
+
+                LRText.Text = String.Format("Linear Regression Formula: y = {0:F}x + {1:F}", k, b);
             });
+
+
         }
 
 
@@ -229,7 +256,7 @@ namespace GuapiGraph
                 y.Add(kin_number.Value);
             }
 
-            
+
             job_chart.Series[0].Points.DataBindXY(x, y);
             if (!columnInit)
             {
@@ -283,7 +310,7 @@ namespace GuapiGraph
                 job_chart.Series[0].LabelForeColor = Color.Black;
                 job_chart.Series[0].ToolTip = "#VALX:#VAL";     //鼠标移动到对应点显示数值
                 job_chart.Series[0].ChartType = SeriesChartType.Column;    //图类型
-               
+
                 job_chart.Series[0].Color = Color.Lime;
                 job_chart.Series[0].LegendText = legend.Name;
                 job_chart.Series[0].IsValueShownAsLabel = true;
@@ -316,7 +343,7 @@ namespace GuapiGraph
                 xValues.Add(item.Key);
                 yValues.Add(item.Value);
             }
-           
+
             radar_chart.Series[0].Points.DataBindXY(xValues, yValues);
             if (!treeInit)
             {
@@ -381,7 +408,7 @@ namespace GuapiGraph
 
 
                 //设置X轴显示间隔为1,X轴数据比较多的时候比较有用  
-               radar_chart.ChartAreas[0].AxisX.LabelStyle.Interval = 1.5;
+                radar_chart.ChartAreas[0].AxisX.LabelStyle.Interval = 1.5;
                 //设置XY轴标题的名称所在位置位远  
                 radar_chart.ChartAreas[0].AxisX.TitleAlignment = StringAlignment.Near;
 
@@ -397,7 +424,7 @@ namespace GuapiGraph
 
                 radar_chart.Series[0].ChartType = SeriesChartType.Radar;
                 radar_chart.Width = 1012;
-                radar_chart.Height =627;
+                radar_chart.Height = 627;
                 radar_chart.Visible = true;
             }
             radar_chart.Titles[0].Text = ("skills-needed graph in " + companyName + " company");
@@ -413,7 +440,8 @@ namespace GuapiGraph
 
         private void job_chart_combo_Click(object sender, EventArgs e)
         {
-            if (job_chart_combo.SelectedItem == null){
+            if (job_chart_combo.SelectedItem == null)
+            {
                 return;
             }
             get_job_chart(job_chart_combo.SelectedItem.ToString());
@@ -421,7 +449,8 @@ namespace GuapiGraph
 
         private void skill_tree_combo_Click(object sender, EventArgs e)
         {
-            if (skill_tree_combo.SelectedItem ==null){
+            if (skill_tree_combo.SelectedItem == null)
+            {
                 return;
             }
             get_skill_chart(skill_tree_combo.SelectedItem.ToString());

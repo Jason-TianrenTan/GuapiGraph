@@ -35,6 +35,7 @@ namespace GuapiGraph
             for (int i = 0; i < xList.Count; i++)
                 xList[i] -= minX;
             yList = countList;
+            xList.Sort();
             count = xList.Count < yList.Count ? xList.Count : yList.Count;
         }
 
