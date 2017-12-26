@@ -18,11 +18,7 @@ namespace GuapiGraph
             String name = obj.getName(),
                 company = obj.getCompany(),
                 date = obj.getDate();
-            List<string> qualifications = obj.getQualifications();
-            StringBuilder builder = new StringBuilder();
-            foreach (string str in qualifications)
-                builder.Append(str);
-            string quals = builder.ToString();
+            string quals = obj.getQualifications();
 
             ret.position = getPosition(name);
             ret.company = company;
@@ -78,9 +74,7 @@ namespace GuapiGraph
             foreach (var token in tokens)
                 if (token.Flag == "v")
                     words.Add(token.Word);
-            foreach (string word in words)
-                Console.WriteLine(word);
-            return null;    
+            return words;    
         }
     }
 }

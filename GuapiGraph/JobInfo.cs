@@ -6,8 +6,33 @@ using System.Threading.Tasks;
 
 namespace GuapiGraph
 {
-    public class JobInfo
+    public class JobInfo : Parsable
     {
+        public string getName()
+        {
+            return this.title;
+        }
+
+        public string getDate()
+        {
+            return this.createTime;
+        }
+        
+        public string getQualifications()
+        {
+            return this.qualifications;
+        }
+
+        public string getDuties()
+        {
+            return this.duties;
+        }
+
+        public string getCompany()
+        {
+            return this.companyName;
+        }
+
         //公司名称
         public string companyName { get; set; }
         //公司地址
@@ -20,7 +45,10 @@ namespace GuapiGraph
                 return _createTime;
             }
             set {
-                _createTime = FormDate(value);
+                if (!value.Contains("-"))
+                    _createTime = FormDate(value);
+                else
+                    _createTime = value;
             } }
         //职位名称
         public string title { get; set; }
@@ -64,5 +92,7 @@ namespace GuapiGraph
                 "duties: " + duties +
                 "qualifications: " + qualifications;
         }
+
+
     }
 }

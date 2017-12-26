@@ -88,7 +88,7 @@ namespace GuapiGraph
         /// 以及对应的哪些月份有岗位
         /// </summary>
         /// <returns></returns>
-       // Dictionary<string, List<string>> getPosition_And_Months();
+        Dictionary<string, List<string>> getPosition_And_Months();
 
     }
 }

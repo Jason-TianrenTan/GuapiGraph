@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GuapiGraph
 {
-    class ModalImpl //: DataModel
+    class ModalImpl : DataModel
     {
         private static DBUtils db = new DBUtils();
 
@@ -20,7 +20,7 @@ namespace GuapiGraph
             //db.ExecuteCmd("drop database if exists job;");
             db.ExecuteCmd(@"create database if not exists job;");
 
-            db.ExecuteCmd(@"drop table if exists jobs,web;");
+            //db.ExecuteCmd(@"drop table if exists jobs,web;");
 
             //创建表
             db.ExecuteCmd(@"create table if not exists web (" +
@@ -59,15 +59,38 @@ namespace GuapiGraph
         /// <returns>新版Bean集合</returns>
         public async Task<List<JobInfo>> readDataFromNet()
         {
-            WebSpider spider = new WebSpider();
             return await Task.Run(async () =>
             {
+                int count = db.CountCmd(@"select count(*) from web limit 1;");
+                if (count != 0)
+                {
+                    Console.WriteLine("web table not null");
+                    DataSet dataSet = db.QueryCmd(@"select * from web;");
+                    DataTable table = dataSet.Tables[0];
+
+                    List<JobInfo> list = new List<JobInfo>();
+                    foreach (DataRow row in table.Rows)
+                    {
+                        list.Add(new JobInfo(
+                            Convert.ToString(row[0]),
+                            Convert.ToString(row[1]),
+                            Convert.ToString(row[2]),
+                            Convert.ToString(row[3]),
+                            Convert.ToString(row[4]),
+                            Convert.ToString(row[5])
+                        ));
+                        Console.WriteLine("get exists web data : " + row[0]);
+                    }
+                    return list;
+                }
+
+                WebSpider spider = new WebSpider();
                 await spider.Start();
                 Console.WriteLine("read Data From Net complete");
 
                 //异步写入数据库
                 foreach (JobInfo job in spider.GetJobList())
-                    db.ExecuteCmd(@"insert into web values ('" +
+                    db.ExecuteCmdAsync(@"insert into web values ('" +
                         job.companyName + "','" +
                         job.address + "','" +
                         job.createTime + "','" +
@@ -208,6 +231,67 @@ namespace GuapiGraph
             return count;
         }
 
+        /// <summary>
+        /// 获取某个职位（运维/前端）需要的技能(java,unix)
+        /// </summary>
+        /// <param name="position">职位名字</param>
+        /// <returns>所需技能列表</returns>
+        public List<string> getSkillOfPosition(string position)
+        {
+            DataSet dataSet = db.QueryCmd(@"select skillList from jobs where skillList like '%" + position + "%'");
+            DataTable table = dataSet.Tables[0];
+            List<string> list = new List<string>();
+            foreach (DataRow row in table.Rows)
+            {
+                list.AddRange(StringToList(Convert.ToString(row[0])));
+            }
+            Console.WriteLine("get Skill Of Position");
+            return list;
+        }
+
+        /// <summary>
+        /// 获取某月份某职位的个数
+        /// </summary>
+        /// <param name="position">职位名字（运维/前端）</param>
+        /// <param name="month">月份，格式参考"2017-12"</param>
+        /// <returns></returns>
+        public int getPositionCountOfMonth(string position, string month)
+        {
+            int count = db.CountCmd(@"select position from jobs where month like '%" + month + "%'");
+            Console.WriteLine("get Position Count Of Month : " + count);
+            return count;
+        }
+
+        /// <summary>
+        /// 获取职位列表(前端/运维/安全)
+        /// 以及对应的哪些月份有岗位
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, List<string>> getPosition_And_Months()
+        {
+            Dictionary<string, List<string>> dictionary = new Dictionary<string, List<string>>();
+
+            DataSet dataSet = db.QueryCmd(@"select position,month from jobs;");
+            DataTable table = dataSet.Tables[0];
+
+            foreach (DataRow row in table.Rows)
+            {
+                if (dictionary.ContainsKey(Convert.ToString(row[0])))
+                {
+                    List<string> list = dictionary[Convert.ToString(row[0])];
+                    if (!list.Contains(Convert.ToString(row[0]).Substring(0, 7)))
+                    {
+                        list.Add(Convert.ToString(row[0]));
+                        dictionary[Convert.ToString(row[0])] = list;
+                    }
+                }
+            }
+            Console.WriteLine("get Position And Months");
+
+            return dictionary;
+        }
+
+
         //将list转为一定格式的string
         private string ListToString(List<string> list)
         {
@@ -219,14 +303,11 @@ namespace GuapiGraph
             return s.TrimEnd(',');
         }
 
-        public List<string> getSkillOfPosition(string position)
+        //将格式化的string转为List
+        private List<string> StringToList(string form)
         {
-            return null;
-        }
-
-        public int getPositionCountOfMonth(string position, string month)
-        {
-            return 0;
+            string[] strings = form.Split(',');
+            return strings.ToList();
         }
     }
 }

@@ -82,7 +82,8 @@ namespace GuapiGraph.Utils
                 DataSet set = new DataSet();
                 OdbcDataAdapter adapter = new OdbcDataAdapter(cmd, conn);
 
-                adapter.Fill(set, "result");
+                adapter.FillSchema(set, SchemaType.Mapped);
+                adapter.Fill(set);
 
                 Console.WriteLine("DBUtils.QueryCmd cmd : " + cmd);
 
