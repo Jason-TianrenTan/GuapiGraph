@@ -41,7 +41,7 @@ namespace GuapiGraph
         }
 
         /// <summary>
-        /// 获取modal实例
+        /// 获取  modal实例
         /// </summary>
         /// <returns></returns>
         public static ModalImpl GetInstance()
@@ -276,13 +276,14 @@ namespace GuapiGraph
         /// <summary>
         /// 获取职位列表(前端/运维/安全)
         /// 以及对应的哪些月份有岗位
+        /// 这里月份顺序按照字典序排序
         /// </summary>
         /// <returns></returns>
         public Dictionary<string, List<string>> getPosition_And_Months()
         {
             Dictionary<string, List<string>> dictionary = new Dictionary<string, List<string>>();
 
-            DataSet dataSet = db.QueryCmd(@"select position,month from jobs;");
+            DataSet dataSet = db.QueryCmd(@"select position,month from jobs order by month;");
             DataTable table = dataSet.Tables[0];
 
             foreach (DataRow row in table.Rows)

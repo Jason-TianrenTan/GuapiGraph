@@ -240,7 +240,7 @@ namespace GuapiGraph
             return s;
         }
 
-        //替换没用的html标签
+        //替换没用的html标签等
         private string replaceHtml(string html)
         {
             string result = @html;
