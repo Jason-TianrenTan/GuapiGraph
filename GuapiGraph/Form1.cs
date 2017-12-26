@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -152,19 +153,35 @@ namespace GuapiGraph
         {
             string tips = "start catching information\n" + "target:https://www.nowcoder.com/recommend\n";
             MessageBox.Show(tips);
+
+            //挂起UI线程，防止阻塞
+            infomation_state.BeginInvoke((MethodInvoker)delegate ()
+            {
+                this.infomation_state.Text = "spider is working...";
+            });
+
             //获取网络数据
-            this.infomation_state.Text = "spider is working...";
             List<JobInfo> jobInfoList = await modal.readDataFromNet();
             get_companylist();
 
-            this.infomation_state.Text = "Parsing...";
+            infomation_state.BeginInvoke((MethodInvoker)delegate ()
+            {
+                this.infomation_state.Text = "Parsing...";
+            });
+
             List<JobBean> beanList = new List<JobBean>();
             foreach (JobInfo jobInfo in jobInfoList)
                 beanList.Add(Parser.Parse(jobInfo));
-            this.infomation_state.Text = "Writing into database...";
+            infomation_state.BeginInvoke((MethodInvoker)delegate ()
+            {
+                this.infomation_state.Text = "Writing into database...";
+            });
             modal.writeData(beanList);
             init();
-            this.infomation_state.Text = "infomation catched!" + companyList.Count + "  companies\' information has been catched!";
+            infomation_state.BeginInvoke((MethodInvoker)delegate ()
+            {
+                this.infomation_state.Text = "infomation catched!      " + companyList.Count + "  companies\' information has been catched!";
+            });
         }
 
 

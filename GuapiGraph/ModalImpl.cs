@@ -83,22 +83,24 @@ namespace GuapiGraph
                     }
                     return list;
                 }
+                else
+                {
+                    WebSpider spider = new WebSpider();
+                    await spider.Start();
+                    Console.WriteLine("read Data From Net complete");
 
-                WebSpider spider = new WebSpider();
-                await spider.Start();
-                Console.WriteLine("read Data From Net complete");
-
-                //异步写入数据库
-                foreach (JobInfo job in spider.GetJobList())
-                    db.ExecuteCmdAsync(@"insert into web values ('" +
-                        job.companyName + "','" +
-                        job.address + "','" +
-                        job.createTime + "','" +
-                        job.title + "','" +
-                        job.duties + "','" +
-                        job.qualifications + "'" +
-                        ");");
-                return spider.GetJobList();
+                    //异步写入数据库
+                    foreach (JobInfo job in spider.GetJobList())
+                        db.ExecuteCmd(@"insert into web values ('" +
+                            job.companyName + "','" +
+                            job.address + "','" +
+                            job.createTime + "','" +
+                            job.title + "','" +
+                            job.duties + "','" +
+                            job.qualifications + "'" +
+                            ");");
+                    return spider.GetJobList();
+                }
             });
         }
 
