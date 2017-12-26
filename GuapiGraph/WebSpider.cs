@@ -153,7 +153,7 @@ namespace GuapiGraph
             response.GetResponseStream();
             StreamReader sr = new StreamReader(response.GetResponseStream());
             string json = @sr.ReadToEnd();
-            
+
             sr.Close();
             response.Close();
 
@@ -186,7 +186,7 @@ namespace GuapiGraph
 
             jobList.Add(job);
 
-            //Console.WriteLine(job.ToString());
+            Console.WriteLine(job.ToString());
         }
 
         //生成JobBean
@@ -243,24 +243,24 @@ namespace GuapiGraph
         //替换没用的html标签
         private string replaceHtml(string html)
         {
-            string result = html;
+            string result = @html;
 
-            result = Regex.Replace(html, "<.*?>", "");
-            result = Regex.Replace(html, "<span.*?>", "");
-            result = Regex.Replace(html, "</span>", "");
-
-            result = result.Replace("<br>", "");
-            result = result.Replace("<p>", "");
-            result = result.Replace("</p>", "");
+            result = result.Replace(@"<br>", "");
+            result = result.Replace(@"<p>", "");
+            result = result.Replace(@"</p>", "");
             result = result.Replace("\r", "");
             result = result.Replace("\n", "");
-            result = result.Replace(" ", "");
-            result = result.Replace("<dt>", "");
-            result = result.Replace("</dt>", "");
+            result = result.Replace(@" ", "");
+            result = result.Replace(@"<dt>", "");
+            result = result.Replace(@"</dt>", "");
             result = result.Replace("\"", "");
             result = result.Replace("'", "");
-            result = result.Replace(",", "");
-            result = result.Replace(";", "");
+            result = result.Replace(@",", "");
+            result = result.Replace(@";", "");
+            result = result.Replace(@"&nbsp", "");
+            result = result.Replace(@"&quot", "");
+
+            result = Regex.Replace(result, "<.*?>", "");
 
             return result;
         }

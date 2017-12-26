@@ -114,7 +114,7 @@ namespace GuapiGraph
         public int getJobCount(string company, string month)
         {
             int count = db.CountCmd(@"select count(*) from jobs where company like '%" + company + "%' " +
-                "and month like '%" + month + "%');");
+                "and month like '%" + month + "%';");
             Console.WriteLine("job in month count: " + count);
             return count;
         }
@@ -128,7 +128,7 @@ namespace GuapiGraph
         /// <returns></returns>
         public Dictionary<string, int> getPositionCountInCompany(string company)
         {
-            DataSet data = db.QueryCmd(@"select position from jobs where company like '%" + company + "%');");
+            DataSet data = db.QueryCmd(@"select position from jobs where company like '%" + company + "%';");
             DataTable table = data.Tables[0];
 
             Dictionary<string, int> dictionary = new Dictionary<string, int>();
@@ -156,6 +156,12 @@ namespace GuapiGraph
         /// <param name="beans"></param>
         public void writeData(List<JobBean> beans)
         {
+            int count = db.CountCmd(@"select count(*) from jobs limit 1;");
+            if (count != 0)
+            {
+                return;
+            }
+
             foreach (JobBean bean in beans)
             {
                 db.ExecuteCmd(@"insert into jobs values ('" +
@@ -180,8 +186,10 @@ namespace GuapiGraph
             List<string> company = new List<string>();
             foreach (DataRow row in table.Rows)
             {
-                company.Add(Convert.ToString(row[0]));
+                if (!company.Contains(row[0]))
+                    company.Add(Convert.ToString(row[0]));
             }
+            Console.WriteLine("get Company List " + company.Count);
             return company;
         }
 
@@ -194,7 +202,7 @@ namespace GuapiGraph
         /// <returns></returns>
         public Dictionary<string, int> getSkillCountInCompany(string company)
         {
-            DataSet data = db.QueryCmd(@"select skillList from jobs where company like '%" + company + "%');");
+            DataSet data = db.QueryCmd("select skillList from jobs where company like '%" + company + "%';");
             DataTable table = data.Tables[0];
 
             Dictionary<string, int> dictionary = new Dictionary<string, int>();
@@ -207,7 +215,7 @@ namespace GuapiGraph
                 {
                     if (dictionary.ContainsKey(skill))
                     {
-                        dictionary[skill] = ++dictionary[company];
+                        dictionary[skill] = ++dictionary[skill];
                     }
                     else
                     {
@@ -259,7 +267,8 @@ namespace GuapiGraph
         /// <returns></returns>
         public int getPositionCountOfMonth(string position, string month)
         {
-            int count = db.CountCmd(@"select position from jobs where month like '%" + month + "%'");
+
+            int count = db.CountCmd("select count(*) from jobs where position like '%" + position + "%' and month like '%" + month + "%';");
             Console.WriteLine("get Position Count Of Month : " + count);
             return count;
         }
@@ -278,14 +287,21 @@ namespace GuapiGraph
 
             foreach (DataRow row in table.Rows)
             {
+                Console.WriteLine("get Position And Months " + row[0] + row[1]);
                 if (dictionary.ContainsKey(Convert.ToString(row[0])))
                 {
                     List<string> list = dictionary[Convert.ToString(row[0])];
-                    if (!list.Contains(Convert.ToString(row[0]).Substring(0, 7)))
+                    if (!list.Contains(Convert.ToString(row[1])))
                     {
-                        list.Add(Convert.ToString(row[0]));
+                        list.Add(Convert.ToString(row[1]));
                         dictionary[Convert.ToString(row[0])] = list;
                     }
+                }
+                else
+                {
+                    List<string> list = new List<string>();
+                    list.Add(Convert.ToString(row[1]));
+                    dictionary.Add(Convert.ToString(row[0]), list);
                 }
             }
             Console.WriteLine("get Position And Months");
