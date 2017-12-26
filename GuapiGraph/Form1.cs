@@ -23,7 +23,7 @@ namespace GuapiGraph
         }
 
 
-        private void init()
+        private async Task init()
         {
             initComboBox();
             initPredictonChart();
@@ -159,7 +159,7 @@ namespace GuapiGraph
             foreach (JobInfo jobInfo in jobInfoList)
                 beanList.Add(Parser.Parse(jobInfo));
             this.infomation_state.Text = "Writing into database...";
-            //modal.writeData(beanList);
+            modal.writeData(beanList);
             init();
             this.infomation_state.Text = "infomation catched!" + companyList.Count + "  companies\' information has been catched!";
         }
